@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import productService from "./productService";
+import operationToFollowService from "./operationToFollowService";
 
 const initialState = {
-    products: [],
-    product:  null,
+    operationsTF: [],
+    operationToFollow:  null,
     isLoading: false,
     isError: false,
     message: '',
     isSuccess: false
 };
-export const productSlice = createSlice({
-    name: "product",
+export const operationToFollowSlice = createSlice({
+    name: "operationToFollow",
     initialState,
     reducers: {
         reset: (state) => {
@@ -35,20 +35,20 @@ export const productSlice = createSlice({
     },
 });
 
-export const create = createAsyncThunk("product/create ",
-    async (product, thunkAPI) => {
+export const create = createAsyncThunk("operationToFollow/create ",
+    async (operationToFollow, thunkAPI) => {
         try {
-            return await productService.create(product);
+            return await operationToFollowService.create(operationToFollow);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
         }
     }
 );
-export const getProducts = createAsyncThunk("product/getProducts ",
+export const getOTF = createAsyncThunk("operationToFollow/getOTF ",
     async (thunkAPI) => {
         try {
-            return await productService.getProducts();
+            return await operationToFollowService.getOTF();
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
@@ -56,10 +56,10 @@ export const getProducts = createAsyncThunk("product/getProducts ",
     }
 
 );
-export const getProductById = createAsyncThunk("product/getProductById ",
+export const getOTFById = createAsyncThunk("operationToFollow/getOTFById ",
     async (id, thunkAPI) => {
         try {
-            return await productService.getProductById(id);
+            return await operationToFollowService.getOTFById(id);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
@@ -68,22 +68,22 @@ export const getProductById = createAsyncThunk("product/getProductById ",
 
 );
 
-export const deleteProduct = createAsyncThunk("product/deleteProduct ", async (id, thunkAPI) => {
+export const deleteOTF = createAsyncThunk("operationToFollow/deleteOTF ", async (id, thunkAPI) => {
     try {
-        return await productService.deleteProduct(id);
+        return await operationToFollowService.deleteOTF(id);
     } catch (error) {
         console.error(error);
         return thunkAPI.rejectWithValue(message);
     }
 },
 );
-export const updateProduct = createAsyncThunk("product/updateProduct ", async (id, thunkAPI) => {
+export const updateOTF = createAsyncThunk("operationToFollow/updateOTF ", async (id,updOTF, thunkAPI) => {
     try {
-        return await productService.updateProduct(id);
+        return await operationToFollowService.updateOTF(id,updOTF);
     } catch (error) {
 
     } console.error(error);
     return thunkAPI.rejectWithValue(message);
 })
-export const { reset } = productSlice.actions;
-export default productSlice.reducer;
+export const { reset } = operationToFollowSlice.actions;
+export default operationToFollowSlice.reducer;

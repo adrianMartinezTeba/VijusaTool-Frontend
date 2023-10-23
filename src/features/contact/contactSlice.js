@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import productService from "./productService";
+import contactService from "./contactService";
 
 const initialState = {
-    products: [],
-    product:  null,
+    contacts: [],
+    contact:  null,
     isLoading: false,
     isError: false,
     message: '',
     isSuccess: false
 };
-export const productSlice = createSlice({
-    name: "product",
+export const contactSlice = createSlice({
+    name: "contact",
     initialState,
     reducers: {
         reset: (state) => {
@@ -35,20 +35,20 @@ export const productSlice = createSlice({
     },
 });
 
-export const create = createAsyncThunk("product/create ",
-    async (product, thunkAPI) => {
+export const create = createAsyncThunk("contact/create ",
+    async (contact, thunkAPI) => {
         try {
-            return await productService.create(product);
+            return await contactService.create(contact);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
         }
     }
 );
-export const getProducts = createAsyncThunk("product/getProducts ",
+export const getContacts = createAsyncThunk("contact/getContacts ",
     async (thunkAPI) => {
         try {
-            return await productService.getProducts();
+            return await contactService.getContacts();
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
@@ -56,10 +56,10 @@ export const getProducts = createAsyncThunk("product/getProducts ",
     }
 
 );
-export const getProductById = createAsyncThunk("product/getProductById ",
+export const getContactById = createAsyncThunk("contact/getContactById ",
     async (id, thunkAPI) => {
         try {
-            return await productService.getProductById(id);
+            return await contactService.getContactById(id);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);
@@ -68,22 +68,22 @@ export const getProductById = createAsyncThunk("product/getProductById ",
 
 );
 
-export const deleteProduct = createAsyncThunk("product/deleteProduct ", async (id, thunkAPI) => {
+export const deleteContact = createAsyncThunk("contact/deleteContact ", async (id, thunkAPI) => {
     try {
-        return await productService.deleteProduct(id);
+        return await contactService.deleteContact(id);
     } catch (error) {
         console.error(error);
         return thunkAPI.rejectWithValue(message);
     }
 },
 );
-export const updateProduct = createAsyncThunk("product/updateProduct ", async (id, thunkAPI) => {
+export const updateProduct = createAsyncThunk("contact/updateProduct ", async (id,updContact, thunkAPI) => {
     try {
-        return await productService.updateProduct(id);
+        return await contactService.updateProduct(id,updContact);
     } catch (error) {
 
     } console.error(error);
     return thunkAPI.rejectWithValue(message);
 })
-export const { reset } = productSlice.actions;
-export default productSlice.reducer;
+export const { reset } = contactSlice.actions;
+export default contactSlice.reducer;

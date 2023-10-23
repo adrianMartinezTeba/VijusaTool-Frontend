@@ -19,8 +19,8 @@ const deleteProduct = async (id) => {
     const res = await axios.delete(`${API_URL}/product/delete/${id}`);
     return res.data;
 }
-const updateProduct = async (id) => {
-    const res = await axios.put(`${API_URL}/product/update/${id}`,);
+const updateProduct = async (updProduct,id) => {
+    const res = await axios.put(`${API_URL}/product/update/${id}`,updProduct);
     return res.data;
 }
 

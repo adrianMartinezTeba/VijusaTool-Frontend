@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import rawMaterialService from "./rawMaterialService";
 
 const initialState = {
-    rawMaterials: [],
+    rawMaterials: null,
     rawMaterial:  null,
     isLoadingRawMaterial: false,
     isErrorRawMaterial: false,
@@ -31,6 +31,18 @@ export const rawMaterialSlice = createSlice({
                 state.isLoadingRawMaterial = true;
             })
             .addCase(create.rejected, (state) => {
+                state.isErrorRawMaterial = true;
+            })
+            .addCase(getRM.fulfilled, (state, action) => {
+                state.rawMaterials = action.payload
+                state.messageRawMaterial = 'Obtenida información correctamente'
+                state.isSuccessRawMaterial = true
+                state.isLoadingRawMaterial = false
+            })
+            .addCase(getRM.pending, (state) => {
+                state.isLoadingRawMaterial = true;
+            })
+            .addCase(getRM.rejected, (state) => {
                 state.isErrorRawMaterial = true;
             })
     },

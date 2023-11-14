@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { create } from "../../../features/typeMat/typeMatSlice"; // Asegúrate de importar el slice correcto
+import { create } from "../../../features/Promises/typeMat/typeMatSlice"; // Asegúrate de importar el slice correcto
 
 const CreateTypeMat = () => {
     const dispatch = useDispatch();

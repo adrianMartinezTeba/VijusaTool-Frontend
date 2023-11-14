@@ -1,59 +1,30 @@
-import React, { useState } from 'react';
+// CreateOperationsSection.js
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getRM } from '../../../../../features/Promises/rawMaterial/rawMaterialSlice';
 
-const CreateOperationsSection = () => {
-  const [operationsData, setOperationsData] = useState({
-    operationId: '',
-    notes: '',
-    expectedTime: '',
-  });
+const CreateOperationsSection = ( {addRawMaterial} ) => {
+  const dispatch = useDispatch();
+  const { rawMaterials, isSuccessRawMaterial, isErrorRawMaterial, messageRawMaterial } = useSelector((state) => state.rawMaterial);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setOperationsData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
+  useEffect(() => {
+    dispatch(getRM());
+  }, []);
+useEffect(()=>{
+console.log(rawMaterials);
+console.log(typeof(addRawMaterial));
+},[isSuccessRawMaterial])
   return (
     <div>
-      <h4>Operaciones a seguir:</h4>
-      <div className="mb-3">
-        <label htmlFor="operationId">Operación a Seguir:</label>
-        <select
-          id="operationId"
-          name="operationId"
-          className="form-select"
-          value={operationsData.operationId}
-          onChange={handleInputChange}
-        >
-          {/* Opciones de "Operaciones a Seguir" */}
-        </select>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="notes">Notas:</label>
-        <input
-          type="text"
-          id="notes"
-          name="notes"
-          className="form-control"
-          value={operationsData.notes}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="expectedTime">Tiempo Esperado:</label>
-        <input
-          type="text"
-          id="expectedTime"
-          name="expectedTime"
-          className="form-control"
-          value={operationsData.expectedTime}
-          onChange={handleInputChange}
-        />
-      </div>
+      {/* {rawMaterials ? rawMaterials.map((material) => (
+            <div onClick={()=>addRawMaterial(material)} key={material._id}>
+              <h1>{material.material.name}</h1>
+              <p>{material.typeMat.TypeMat}</p>
+            </div>
+          ))
+        : null} */}
     </div>
   );
-};
+}
 
 export default CreateOperationsSection;

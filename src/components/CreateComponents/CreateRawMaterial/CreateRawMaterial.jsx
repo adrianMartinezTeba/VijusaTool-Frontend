@@ -1,10 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { create } from '../../../features/rawMaterial/rawMaterialSlice';
-import { getMaterials } from '../../../features/material/materialSlice';
-import { getTypeMats } from '../../../features/typeMat/typeMatSlice';
+import { create } from '../../../features/Promises/rawMaterial/rawMaterialSlice';
+import { getMaterials } from '../../../features/Promises/material/materialSlice';
+import { getTypeMats } from '../../../features/Promises/typeMat/typeMatSlice';
+import { calculatePriceMetro} from '../../../features/NoPromises/operationsCreateRawMaterial/operations'; // Ajusta la ruta según sea necesario
 
-const CreateRawMaterial = () => {
+const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
   const dispatch = useDispatch();
   const { materials, isSuccessMaterial, isErrorMaterial, messageMaterial } = useSelector(
     (state) => state.material
@@ -28,20 +30,16 @@ const CreateRawMaterial = () => {
     dispatch(getTypeMats());
   }, [dispatch]);
   useEffect(() => {
-  console.log(rawMaterialData.priceKg);
-  console.log(rawMaterialData.wheightMeter);
-  console.log(rawMaterialData.priceMetro);
-  console.log(rawMaterialData);
-},[rawMaterialData])
+
+  }, [buttonsState]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === 'priceKg') {
-      const priceKg = value
-  
+      const priceKg = value;
+
       if (!isNaN(priceKg)) {
-        const priceMetro = ((priceKg * rawMaterialData.wheightMeter)/1000).toFixed(3);
-        console.log(priceMetro);
+        const priceMetro = calculatePriceMetro(priceKg, rawMaterialData.wheightMeter);
         setRawMaterialData((prevData) => ({
           ...prevData,
           priceKg,
@@ -56,9 +54,9 @@ const CreateRawMaterial = () => {
       }
     } else if (name === 'wheightMeter') {
       const wheightMeter = value;
-  
+
       if (!isNaN(wheightMeter)) {
-        const priceMetro = ((rawMaterialData.priceKg * wheightMeter)/1000).toFixed(3);
+        const priceMetro = calculatePriceMetro(rawMaterialData.priceKg, wheightMeter);
         setRawMaterialData((prevData) => ({
           ...prevData,
           wheightMeter,
@@ -78,12 +76,12 @@ const CreateRawMaterial = () => {
       }));
     }
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(rawMaterialData);
     dispatch(create(rawMaterialData));
+    handleBtnState('cerrar');
   };
 
   return (
@@ -136,9 +134,12 @@ const CreateRawMaterial = () => {
           <label>Precio por Metro:</label>
           <input type="text" name="priceMetro" value={rawMaterialData.priceMetro} readOnly />
         </div>
-        <button type="submit">Crear Material Crudo</button>
-      </form>
-    </div>
+            <div>
+              <button type="submit">Crear</button>
+            </div>
+        
+      </form >
+    </div >
   );
 };
 

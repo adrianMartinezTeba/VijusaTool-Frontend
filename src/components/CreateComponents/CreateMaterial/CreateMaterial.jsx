@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { create } from "../../../features/material/materialSlice";
+import { create } from "../../../features/Promises/material/materialSlice";
 
 const CreateMaterial = () => {
     const dispatch = useDispatch();

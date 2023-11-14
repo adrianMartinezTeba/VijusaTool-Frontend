@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { create} from "../../../features/order/orderSlice";
+import { create} from "../../../features/Promises/order/orderSlice";
 const CreateOrder = () => {
   const dispatch = useDispatch();
   const [orderData, setOrderData] = useState({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { create } from '../../../features/operationToFollow/operationToFollowSlice';
+import { create } from '../../../features/Promises/operationToFollow/operationToFollowSlice';
 const CreateOperationToFollow = () => {
   const dispatch = useDispatch();
   const [operationData, setOperationData] = useState({

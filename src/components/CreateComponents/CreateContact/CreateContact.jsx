@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './CreateContact.scss'; // Asegúrate de importar tus estilos SCSS
 import { useDispatch, useSelector } from "react-redux";
-import { create} from "../../../features/contact/contactSlice";
+import { create} from "../../../features/Promises/contact/contactSlice";
 const CreateContact = () => {
     const dispatch = useDispatch();
-    // const { exercises } = useSelector((state) => state.exercises);
-//   useEffect(() => {
-//     console.log(contactData);
-//   },[contactData])
     const handleCreateContact = (e) => {
         e.preventDefault();
       dispatch(create(contactData));

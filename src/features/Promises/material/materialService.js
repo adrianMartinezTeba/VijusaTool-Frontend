@@ -4,6 +4,7 @@ const API_URL = "http://localhost:8080";
 
 const getMaterials = async () => {
     const res = await axios.get(`${API_URL}/material/get`);
+    console.log(res.data);
     return res.data;
 };
 const getMaterialById = async (id) => {

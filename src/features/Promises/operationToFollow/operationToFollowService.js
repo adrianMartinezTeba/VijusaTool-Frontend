@@ -2,10 +2,13 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 
-const create = async (operationToFollow) => {
+const createOTF = async (operationToFollow) => {
     const res = await axios.post(`${API_URL}/operationToFollow/create`,operationToFollow);
 
     return res.data;
+}
+const OTFToCreate = async (operationToFollow) => {
+  return operationToFollow;
 }
 const getOTF = async () => {
     const res = await axios.get(`${API_URL}/operationToFollow/get`);
@@ -25,7 +28,8 @@ const updateOTF = async (id,updOTF) => {
 }
 
 const productService = {
-create,
+createOTF,
+OTFToCreate,
 deleteOTF,
 getOTFById,
 getOTF,

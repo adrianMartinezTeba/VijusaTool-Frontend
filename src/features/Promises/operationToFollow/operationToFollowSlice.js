@@ -22,16 +22,21 @@ export const operationToFollowSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(create.fulfilled, (state, action) => {
+            .addCase(createOTF.fulfilled, (state, action) => {
                 state.message = 'Creado correctamente'
                 state.isSuccess = true
                 state.isLoading = false
             })
-            .addCase(create.pending, (state) => {
+            .addCase(createOTF.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(create.rejected, (state) => {
+            .addCase(createOTF.rejected, (state) => {
                 state.isError = true;
+            })
+            .addCase(OTFToCreate.fulfilled, (state,action) => {
+                state.operationToFollow = action.payload
+                state.isSuccess = true
+                state.isLoading = false
             })
             .addCase(getOTF.fulfilled, (state, action) => {
                 state.operationsTF = action.payload
@@ -47,10 +52,20 @@ export const operationToFollowSlice = createSlice({
     },
 });
 
-export const create = createAsyncThunk("operationToFollow/create ",
+export const createOTF = createAsyncThunk("operationToFollow/createOTF ",
     async (operationToFollow, thunkAPI) => {
         try {
-            return await operationToFollowService.create(operationToFollow);
+            return await operationToFollowService.createOTF(operationToFollow);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+export const OTFToCreate = createAsyncThunk("operationToFollow/OTFToCreate ",
+    async (operationToFollow, thunkAPI) => {
+        try {
+            return await operationToFollowService.OTFToCreate(operationToFollow);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);

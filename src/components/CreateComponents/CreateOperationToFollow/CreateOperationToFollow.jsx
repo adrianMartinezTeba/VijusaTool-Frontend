@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { create } from '../../../features/Promises/operationToFollow/operationToFollowSlice';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { OTFToCreate } from '../../../features/Promises/operationToFollow/operationToFollowSlice';
+import CreateOTFDispatch from '../../Buttons/CreateOTFDispatch/CreateOTFDispatch';
 const CreateOperationToFollow = () => {
   const dispatch = useDispatch();
   const [operationData, setOperationData] = useState({
@@ -17,17 +18,14 @@ const CreateOperationToFollow = () => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(create(operationData));
+  useEffect(() => {
     console.log(operationData);
-  };
-
+    dispatch(OTFToCreate(operationData));
+}, [operationData]);
   return (
     <div>
       <h2>Crear Operación a Seguir</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           <label>Nombre de la Operación:</label>
           <input
@@ -64,8 +62,11 @@ const CreateOperationToFollow = () => {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Crear Operación</button>
+       
       </form>
+      <div>
+        <CreateOTFDispatch/>
+      </div>
     </div>
   );
 };

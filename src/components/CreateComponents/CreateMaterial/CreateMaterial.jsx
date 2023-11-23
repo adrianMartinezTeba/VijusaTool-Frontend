@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { create } from "../../../features/Promises/material/materialSlice";
-
+import { materialToCreate } from "../../../features/Promises/material/materialSlice";
+import CreateMaterialDispatch from '../../Buttons/CreateMaterialDispatch/CreateMaterialDispatch';
 const CreateMaterial = () => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({ name: '' });
+    const [formData, setFormData] = useState({ nameMaterial: '' });
 
-    const handleNameChange = (e) => {
-        const { name,value } = e.target;
-        setFormData((prevData) => 
-       ({ ...prevData,
-        name: value }));
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+        
     };
-
     useEffect(() => {
         console.log(formData);
+        dispatch(materialToCreate(formData));
     }, [formData]);
-
-    const handleCreateMaterial = async (e) => {
-        e.preventDefault();
-        dispatch(create(formData));
-    };
-
     return (
         <div>
             <h2>Crear Material</h2>
-            <form onSubmit={handleCreateMaterial}>
-                <label>Nombre del Material:</label>
-                <input type="text" value={formData.name} onChange={handleNameChange} />
-                <button type='submit'>Crear Material</button>
+            <form>
+                <label>Nombre del Material(hierro,bronce,etc):</label>
+                <input type="text" name="nameMaterial" value={formData.nameMaterial} onChange={handleInputChange} />
             </form>
+            <div>
+                <CreateMaterialDispatch />
+            </div>
         </div>
     );
 };

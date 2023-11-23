@@ -11,12 +11,15 @@ const getMaterialById = async (id) => {
     const res = await axios.get(`${API_URL}/material/get/${id}`);
     return res.data;
 };
-const create = async (material) => {
+const createMaterial = async (material) => {
     await material
     console.log(material);
     const res = await axios.post(`${API_URL}/material/create`,material);
 
     return res.data;
+}
+const materialToCreate = async (material) =>{
+    return material
 }
 const deleteMaterial = async (id) => {
     const res = await axios.delete(`${API_URL}/material/delete/${id}`);
@@ -28,7 +31,8 @@ const updateMaterial = async (id,updOrder) => {
 }
 
 const materialService = {
-create,
+createMaterial,
+materialToCreate,
 deleteMaterial,
 getMaterialById,
 getMaterials,

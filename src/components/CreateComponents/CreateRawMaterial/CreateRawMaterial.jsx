@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { create } from '../../../features/Promises/rawMaterial/rawMaterialSlice';
 import { getMaterials } from '../../../features/Promises/material/materialSlice';
-import { getTypeMats } from '../../../features/Promises/typeMat/typeMatSlice';
+import { getShapes } from '../../../features/Promises/shape/shapeSlice';
 import { calculatePriceMetro} from '../../../features/NoPromises/operationsCreateRawMaterial/operations'; // Ajusta la ruta según sea necesario
 
 const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
@@ -27,7 +27,7 @@ const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
 
   useEffect(() => {
     dispatch(getMaterials());
-    dispatch(getTypeMats());
+    dispatch(getShapes());
   }, [dispatch]);
   useEffect(() => {
 

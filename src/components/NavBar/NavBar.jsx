@@ -32,7 +32,7 @@ const NavBar = () => {
               <Link to="/create/contact" className="dropdown-item">Contacto</Link>
             </li>
             <li className="nav-item">
-              <Link to="/create/typeMat" className="dropdown-item">Tipo de material</Link>
+              <Link to="/create/shape" className="dropdown-item">Forma del material</Link>
             </li>
           </ul>
         </li>

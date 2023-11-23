@@ -11,13 +11,17 @@ const getContactById = async (id) => {
     const res = await axios.get(`${API_URL}/contact/get/${id}`);
     return res.data;
 };
-const create = async (contactData) => {
+const createContact = async (contactData) => {
   await contactData
   console.log(contactData);
     const res = await axios.post(`${API_URL}/contact/create`,contactData);
 
     return res.data;
 }
+const contactToCreate = async (contactData) => {
+
+      return contactData;
+  }
 const deleteContact = async (id) => {
     const res = await axios.delete(`${API_URL}/contact/delete/${id}`);
     return res.data;
@@ -28,7 +32,8 @@ const updateContact = async (id,updContact) => {
 }
 
 const productService = {
-create,
+createContact,
+contactToCreate,
 deleteContact,
 getContactById,
 getContacts,

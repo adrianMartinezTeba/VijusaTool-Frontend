@@ -25,11 +25,23 @@ export const operationToFollowSlice = createSlice({
             .addCase(create.fulfilled, (state, action) => {
                 state.message = 'Creado correctamente'
                 state.isSuccess = true
+                state.isLoading = false
             })
             .addCase(create.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(create.rejected, (state) => {
+                state.isError = true;
+            })
+            .addCase(getOTF.fulfilled, (state, action) => {
+                state.operationsTF = action.payload
+                state.isSuccess = true
+                state.isLoading = false
+            })
+            .addCase(getOTF.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOTF.rejected, (state) => {
                 state.isError = true;
             })
     },

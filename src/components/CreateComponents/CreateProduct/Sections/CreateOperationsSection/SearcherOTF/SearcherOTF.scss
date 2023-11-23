@@ -1,0 +1,39 @@
+.tableOTF-container {
+    display: flex;
+    border: 1px solid black;
+    flex-direction: column;
+  
+    .tableOTF-row-header {
+      display: flex;
+      border-bottom: 1px solid black;
+  
+      .tableOTF-cell {
+        margin: 4px;
+        padding: 8px; // Ajusta el padding según tus necesidades
+        border-right: 1px solid black;
+        min-width: 150px; // Establece el ancho mínimo de la celda
+        max-width: 150px; // Establece el ancho máximo de la celda
+     
+      }
+    }
+  
+    .tableOTF-row {
+      display: flex;
+      border-bottom: 1px solid black;
+        
+      .tableOTF-cell {
+        margin: 4px;
+        padding: 8px; // Ajusta el padding según tus necesidades
+        border-right: 1px solid black;
+        min-width: 150px; // Establece el ancho mínimo de la celda
+        max-width: 150px; // Establece el ancho máximo de la celda
+    
+      }
+    }
+  }
+  
+  /* Ajustes adicionales para la última celda de cada fila */
+  .tableOTF-cell:last-child {
+    border-right: none; // Elimina el borde derecho de la última celda
+  }
+  

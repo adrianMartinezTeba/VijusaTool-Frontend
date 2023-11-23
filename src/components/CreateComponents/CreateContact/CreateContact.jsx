@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './CreateContact.scss'; // Asegúrate de importar tus estilos SCSS
 import { useDispatch, useSelector } from "react-redux";
-import { create} from "../../../features/Promises/contact/contactSlice";
+import { contactToCreate} from "../../../features/Promises/contact/contactSlice";
+import CreateContactDispatch from '../../Buttons/CreateContactDispatch/CreateContactDispatch';
 const CreateContact = () => {
     const dispatch = useDispatch();
-    const handleCreateContact = (e) => {
-        e.preventDefault();
-      dispatch(create(contactData));
-      
-    };
   
     const [contactData, setContactData] = useState({
         name: '',
@@ -25,7 +21,9 @@ const CreateContact = () => {
             [name]: value,
         }));
     };
-
+useEffect(() => {
+    dispatch(contactToCreate(contactData));
+}, [contactData]);
 
 
     return (
@@ -86,11 +84,11 @@ const CreateContact = () => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <div className='form-group'>
-                    <button type='submit' onClick={handleCreateContact} className='btn'>Crear</button>
-                </div>
                 {/* Otros campos de formulario */}
             </form>
+                <div className='form-group'>
+                    <CreateContactDispatch />
+                </div>
         </div>
     );
 };

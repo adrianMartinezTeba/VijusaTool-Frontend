@@ -5,7 +5,7 @@ import order from '../features/Promises/order/orderSlice'
 import product from '../features/Promises/product/productSlice'
 import rawMaterial from '../features/Promises/rawMaterial/rawMaterialSlice'
 import material from '../features/Promises/material/materialSlice'
-import typeMat from '../features/Promises/typeMat/typeMatSlice'
+import shape from '../features/Promises/shape/shapeSlice'
 export const store = configureStore({
   reducer: {
     contact,
@@ -14,6 +14,6 @@ export const store = configureStore({
     product,
     rawMaterial,
     material,
-    typeMat
+    shape
   },
 })

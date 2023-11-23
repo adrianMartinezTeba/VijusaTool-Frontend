@@ -22,16 +22,20 @@ export const materialSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(create.fulfilled, (state, action) => {
+            .addCase(createMaterial.fulfilled, (state, action) => {
                 state.messageMaterial = 'Creado correctamente'
                 state.isSuccessMaterial = true
                 state.isLoadingMaterial = false
             })
-            .addCase(create.pending, (state) => {
+            .addCase(createMaterial.pending, (state) => {
                 state.isLoadingMaterial = true;
             })
-            .addCase(create.rejected, (state) => {
+            .addCase(createMaterial.rejected, (state) => {
                 state.isErrorMaterial = true;
+            }).addCase(materialToCreate.fulfilled,(state,action)=>{
+                state.material = action.payload
+                state.messageMaterial = 'añadido correctamente'
+                state.isSuccessMaterial = true
             })
             .addCase(getMaterials.fulfilled, (state, action) => {
                 state.materials = action.payload
@@ -47,11 +51,22 @@ export const materialSlice = createSlice({
     },
 });
 
-export const create = createAsyncThunk("material/create ",
+export const createMaterial = createAsyncThunk("material/createMaterial ",
     async (material, thunkAPI) => {
         try {
            
-            return await materialService.create(material);
+            return await materialService.createMaterial(material);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(messageMaterial);
+        }
+    }
+);
+export const materialToCreate = createAsyncThunk("material/materialToCreate ",
+    async (material, thunkAPI) => {
+        try {
+           
+            return await materialService.materialToCreate(material);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(messageMaterial);

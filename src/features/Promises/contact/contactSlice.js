@@ -22,23 +22,38 @@ export const contactSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(create.fulfilled, (state, action) => {
+            .addCase(createContact.fulfilled, (state, action) => {
                 state.message = 'Creado correctamente'
                 state.isSuccess = true
             })
-            .addCase(create.pending, (state) => {
+            .addCase(createContact.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(create.rejected, (state) => {
+            .addCase(createContact.rejected, (state) => {
                 state.isError = true;
+            })
+            .addCase(contactToCreate.fulfilled, (state, action) => {
+                state.contact = action.payload
+                state.message = 'Creado correctamente'
+                state.isSuccess = true
             })
     },
 });
 
-export const create = createAsyncThunk("contact/create ",
+export const createContact = createAsyncThunk("contact/createContact ",
     async (contact, thunkAPI) => {
         try {
-            return await contactService.create(contact);
+            return await contactService.createContact(contact);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+export const contactToCreate = createAsyncThunk("contact/contactToCreate ",
+    async (contact, thunkAPI) => {
+        try {
+            return await contactService.contactToCreate(contact);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(message);

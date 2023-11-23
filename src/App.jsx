@@ -7,7 +7,7 @@ import CreateRawMaterial from "./components/CreateComponents/CreateRawMaterial/C
 import CreateOperationToFollow from "./components/CreateComponents/CreateOperationToFollow/CreateOperationToFollow";
 import NavBar from "./components/NavBar/NavBar";
 import CreateMaterial from "./components/CreateComponents/CreateMaterial/CreateMaterial";
-import CreateTypeMat from "./components/CreateComponents/CreateTypeMat/CreateTypeMat";
+import CreateShape from "./components/CreateComponents/CreateShape/CreateShape";
 import CreateContact from "./components/CreateComponents/CreateContact/CreateContact";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
             <Route path="/create/rawMaterial" element={<CreateRawMaterial />} />
             <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
             <Route path="/create/material" element={<CreateMaterial />} />
-            <Route path="/create/typeMat" element={<CreateTypeMat />} />
+            <Route path="/create/shape" element={<CreateShape />} />
             <Route path="/create/contact" element={<CreateContact />} />
           </Routes>
         

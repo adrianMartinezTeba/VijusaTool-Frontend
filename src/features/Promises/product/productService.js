@@ -23,13 +23,19 @@ const updateProduct = async (updProduct,id) => {
     const res = await axios.put(`${API_URL}/product/update/${id}`,updProduct);
     return res.data;
 }
+  const addToCreateProductRMObj = async (newDataArray) => {
+
+    return newDataArray;
+  };
+  
 
 const productService = {
 create,
 deleteProduct,
 getProductById,
 getProducts,
-updateProduct
+updateProduct,
+addToCreateProductRMObj
 };
 
 export default productService;

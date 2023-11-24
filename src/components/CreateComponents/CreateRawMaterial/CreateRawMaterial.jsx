@@ -1,37 +1,46 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { create } from '../../../features/Promises/rawMaterial/rawMaterialSlice';
+import { RMToCreate } from '../../../features/Promises/rawMaterial/rawMaterialSlice';
 import { getMaterials } from '../../../features/Promises/material/materialSlice';
 import { getShapes } from '../../../features/Promises/shape/shapeSlice';
 import { calculatePriceMetro} from '../../../features/NoPromises/operationsCreateRawMaterial/operations'; // Ajusta la ruta según sea necesario
+import CreateRMDispatch from '../../Buttons/CreateRMDispatch/CreateRMDispatch';
 
-const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
+const CreateRawMaterial = () => {
+  const [rawMaterialData, setRawMaterialData] = useState({
+    material: '',
+    shape: '',
+    priceKg: '',
+    priceMetro: '',
+    wheightMeter: '',
+    externalDiameter: '',
+    internalDiameter: ''
+  });
   const dispatch = useDispatch();
   const { materials, isSuccessMaterial, isErrorMaterial, messageMaterial } = useSelector(
     (state) => state.material
   );
-  const { typeMats, isSuccessTypeMat, isErrorTypeMat, messageTypeMat } = useSelector(
-    (state) => state.typeMat
+  const { shapes } = useSelector(
+    (state) => state.shape
+  );
+  const { rawMaterial } = useSelector(
+    (state) => state.rawMaterial
   );
 
-  const [rawMaterialData, setRawMaterialData] = useState({
-    material: '',
-    typeMat: '',
-    externalDiameter: '',
-    internalDiameter: '',
-    priceKg: '',
-    wheightMeter: '',
-    priceMetro: '',
-  });
 
   useEffect(() => {
     dispatch(getMaterials());
     dispatch(getShapes());
-  }, [dispatch]);
+  }, []);
   useEffect(() => {
-
-  }, [buttonsState]);
+console.log(shapes);
+console.log(materials);
+  }, [shapes, materials]);
+  useEffect(() => {
+    console.log(rawMaterialData);
+dispatch(RMToCreate(rawMaterialData));
+  }, [rawMaterialData]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -77,37 +86,30 @@ const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(rawMaterialData);
-    dispatch(create(rawMaterialData));
-    handleBtnState('cerrar');
-  };
-
   return (
     <div>
-      <h2>Crear Material Crudo</h2>
-      <form onSubmit={handleSubmit}>
+      <h2>Crear Materia prima</h2>
+      <form>
         <div>
-          <label>Material:</label>
-          <select name="material" value={rawMaterialData.material} onChange={handleInputChange}>
+        <label>Forma:</label>
+          <select name="shape" value={rawMaterialData.shape} onChange={handleInputChange}>
             <option value="">Seleccionar material existente o crear uno nuevo</option>
-            {materials ? (
-              materials.map((material) => (
-                <option key={material._id} value={material._id}>{material.name}</option>
+            {shapes ? (
+              shapes.map((shape) => (
+                <option key={shape._id} value={shape._id}>{shape.nameShape}</option>
               ))
             ) : (
-              <option value="">Cargando materiales...</option>
+              <option value="">Cargando formas...</option>
             )}
           </select>
         </div>
         <div>
           <label>Tipo de Material:</label>
-          <select name="typeMat" value={rawMaterialData.typeMat} onChange={handleInputChange}>
+          <select name="material" value={rawMaterialData.material} onChange={handleInputChange}>
             <option value="">Seleccionar tipo de material existente o crear uno nuevo</option>
-            {typeMats ? (
-              typeMats.map((typeMat) => (
-                <option key={typeMat._id} value={typeMat._id}>{typeMat.TypeMat}</option>
+            {materials ? (
+              materials.map((material) => (
+                <option key={material._id} value={material._id}>{material.nameMaterial}</option>
               ))
             ) : (
               <option value="">Cargando tipos de materiales...</option>
@@ -134,11 +136,11 @@ const CreateRawMaterial = ({ handleBtnState, buttonsState }) => {
           <label>Precio por Metro:</label>
           <input type="text" name="priceMetro" value={rawMaterialData.priceMetro} readOnly />
         </div>
-            <div>
-              <button type="submit">Crear</button>
-            </div>
         
       </form >
+            <div>
+             <CreateRMDispatch/>
+            </div>
     </div >
   );
 };

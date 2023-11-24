@@ -22,16 +22,21 @@ export const rawMaterialSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(create.fulfilled, (state, action) => {
+            .addCase(createRM.fulfilled, (state, action) => {
                 state.messageRawMaterial = 'Creado correctamente'
                 state.isSuccessRawMaterial = true
                 state.messageRawMaterial = 'Creado correctamente'
             })
-            .addCase(create.pending, (state) => {
+            .addCase(createRM.pending, (state) => {
                 state.isLoadingRawMaterial = true;
             })
-            .addCase(create.rejected, (state) => {
+            .addCase(createRM.rejected, (state) => {
                 state.isErrorRawMaterial = true;
+            })
+            .addCase(RMToCreate.fulfilled, (state, action) => {
+                state.rawMaterial = action.payload
+                state.isSuccessRawMaterial = true
+                state.isLoadingRawMaterial = false
             })
             .addCase(getRM.fulfilled, (state, action) => {
                 state.rawMaterials = action.payload
@@ -48,10 +53,20 @@ export const rawMaterialSlice = createSlice({
     },
 });
 
-export const create = createAsyncThunk("rawMaterial/create ",
+export const createRM = createAsyncThunk("rawMaterial/createRM ",
     async (rawMaterial, thunkAPI) => {
         try {
-            return await rawMaterialService.create(rawMaterial);
+            return await rawMaterialService.createRM(rawMaterial);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(messageRawMaterial);
+        }
+    }
+);
+export const RMToCreate = createAsyncThunk("rawMaterial/RMToCreate ",
+    async (rawMaterial, thunkAPI) => {
+        try {
+            return await rawMaterialService.RMToCreate(rawMaterial);
         } catch (error) {
             console.error(error);
             return thunkAPI.rejectWithValue(messageRawMaterial);

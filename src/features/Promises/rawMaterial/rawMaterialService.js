@@ -10,10 +10,13 @@ const getRMById = async (id) => {
     const res = await axios.get(`${API_URL}/rawMaterial/get/${id}`);
     return res.data;
 };
-const create = async (rawMaterial) => {
+const createRM = async (rawMaterial) => {
     const res = await axios.post(`${API_URL}/rawMaterial/create`,rawMaterial);
 
     return res.data;
+}
+const RMToCreate = async (rawMaterial) => {
+    return rawMaterial;
 }
 const deleteRM = async (id) => {
     const res = await axios.delete(`${API_URL}/rawMaterial/delete/${id}`);
@@ -25,7 +28,8 @@ const updateRM = async (id,updRM) => {
 }
 
 const rawMaterialService = {
-create,
+createRM,
+RMToCreate,
 deleteRM,
 getRMById,
 getRM,

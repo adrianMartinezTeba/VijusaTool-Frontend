@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRM } from '../../../../../../features/Promises/rawMaterial/rawMaterialSlice';
-
-const SearcherRMS = ({ addToArray }) => {
+import { getRM,reset} from '../../../../../../features/Promises/rawMaterial/rawMaterialSlice';
+import AddToCreProRMSecFromSearcherRMSec from '../../../../../Buttons/AddToCreProRMSecFromSearcherRMSec/AddToCreProRMSecFromSearcherRMSec';
+const SearcherRMS = () => {
   const dispatch = useDispatch();
-  const { rawMaterials, isSuccessRawMaterial, isErrorRawMaterial, messageRawMaterial } = useSelector((state) => state.rawMaterial);
-
-  useEffect(() => {
+  const { rawMaterials} = useSelector((state) => state.rawMaterial);
+  useEffect(() => { 
     dispatch(getRM());
+    return ()=>{
+      dispatch(reset());
+      console.log('se limpiaaaaa');
+    }
   }, []);
-
-  useEffect(() => {
-    // Lógica adicional cuando rawMaterials cambia
-  }, [rawMaterials]);
-
   return (
     <div className='table-responsive'>
       <table className='table table-striped'>
@@ -30,20 +28,18 @@ const SearcherRMS = ({ addToArray }) => {
           </tr>
         </thead>
         <tbody>
-          {rawMaterials && rawMaterials.length > 0 ? (
+          {rawMaterials  ? (
             rawMaterials.map((material) => (
               <tr key={material._id}>
-                <td>{material.typeMat.TypeMat}</td>
-                <td>{material.material.name}</td>
+                <td>{material.shape.nameShape}</td>
+                <td>{material.material.nameMaterial}</td>
                 <td>{material.externalDiameter}</td>
                 <td>{material.internalDiameter}</td>
                 <td>{material.priceKg}</td>
                 <td>{material.wheightMeter}</td>
                 <td>{material.priceMetro}</td>
                 <td>
-                  <button className='btn btn-primary' onClick={(e) => { addToArray(material, e) }}>
-                    Añadir
-                  </button>
+                 <AddToCreProRMSecFromSearcherRMSec RMData={material}/>
                 </td>
               </tr>
             ))
@@ -57,5 +53,4 @@ const SearcherRMS = ({ addToArray }) => {
     </div>
   );
 };
-
 export default SearcherRMS;

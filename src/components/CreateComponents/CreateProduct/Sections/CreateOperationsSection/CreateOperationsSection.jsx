@@ -66,7 +66,7 @@ if (name === 'expectedTime') {
   //   console.log(OTFSend);
   // }, [OTFSend]);
   useEffect(() => {
-    console.log(productData);
+    // console.log(productData);
   }, [productData]);
   return (
     <div className="container mt-4">

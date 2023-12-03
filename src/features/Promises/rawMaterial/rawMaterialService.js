@@ -3,6 +3,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 const getRM = async () => {
+    console.log('se repite el mamawevo');
     const res = await axios.get(`${API_URL}/rawMaterial/get`);
     return res.data;
 };

@@ -13,34 +13,34 @@ const CreateProduct = () => {
     totalPrice: '',
     notes: ''
   });
-useEffect(() => {
-  // Lógica adicional cuando productComponente cambia
-  console.log(createProductState);
-}, [createProductState]);
   useEffect(() => {
     // Calcular totalPrice sumando precios de rawMaterials y operationToFollow
     let rawMaterialsTotal = 0;
     let operationsTotal = 0;
-
+  
     // Sumar precios de rawMaterials
     for (const rawMaterial of productComponente.rawMaterials) {
       rawMaterialsTotal += parseFloat(rawMaterial.precioTotalSobreEsaMateriaPrima) || 0;
     }
-
+  
     // Sumar precios de operationToFollow
     for (const operation of productComponente.operationToFollow) {
       operationsTotal += parseFloat(operation.priceOperation) || 0;
     }
-
+  
     // Calcular el total final
     const totalPrice = rawMaterialsTotal + operationsTotal;
-
+  
     // Actualizar el estado con el nuevo totalPrice
-    setProductComponent( {
+    setProductComponent({
       ...productComponente,
       totalPrice: totalPrice, // Convertir a cadena si es necesario
     });
-  }, [productComponente.rawMaterials, productComponente.operationToFollow]);
+  
+    // Lógica adicional cuando productComponente cambia
+    console.log(createProductState);
+  }, [productComponente.rawMaterials, productComponente.operationToFollow, createProductState]);
+  
   return (
     <>
       <h2>Crear Producto</h2>

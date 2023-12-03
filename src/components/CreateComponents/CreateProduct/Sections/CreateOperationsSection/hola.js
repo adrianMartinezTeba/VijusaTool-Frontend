@@ -4,9 +4,7 @@ import CreateRawMaterial from '../../../CreateRawMaterial/CreateRawMaterial.jsx'
 import SearcherRMS from './SearcherRMS/SearcherRMS.jsx';
 import { priceOnThisRawMaterial, priceCut } from '../../../../../features/NoPromises/operationsRawMaterialSection/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCreateProductRMObj, reset, addToRMSectToSend, addToRMSectToView } from '../../../../../features/Promises/product/productSlice.js';
-import DeleteRaw from './Buttons/deleteRaw/deleteRaw.jsx';
-import Confirm from './Buttons/Confirm/Confirm.jsx';
+import { addToCreateProductRMObj, reset } from '../../../../../features/Promises/product/productSlice.js';
 
 const CreateRawMaterialsSection = () => {
   const dispatch = useDispatch();
@@ -17,63 +15,32 @@ const CreateRawMaterialsSection = () => {
     cerrar: true,
   });
 
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
+
   const [rawMaterialsArrayToView, setRawMaterialsArrayToView] = useState([]);
   const [rawMaterialsArrayToSend, setRawMaterialsArrayToSend] = useState([]);
+
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    const newArray= {
-      toView:[...rawMaterialsArrayToView],
-      toSend:[...rawMaterialsArrayToSend]
+    const updatedArrayToView = [...rawMaterialsArrayToView]; // Usar estado local
+
+    // Actualizar la propiedad específica de la materia prima seleccionada
+    updatedArrayToView[index] = {
+      ...updatedArrayToView[index],
+      [name]: value,
+      precioDelCorte: name === 'tamañoDelCorte'
+        ? priceCut(value, updatedArrayToView[index].priceMetro)
+        : updatedArrayToView[index].precioDelCorte,
+      precioTotalSobreEsaMateriaPrima: (name === 'tamañoDelCorte' || name === 'cantidadDeCortes')
+        ? priceOnThisRawMaterial(updatedArrayToView[index].cantidadDeCortes, priceCut(value, updatedArrayToView[index].priceMetro))
+        : updatedArrayToView[index].precioTotalSobreEsaMateriaPrima,
     };
-    if (name === 'tamañoDelCorte') {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
-        tamañoDelCorte: value,
-        precioDelCorte: priceCut(value, newArray.toView[index].priceMetro),
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          newArray.toView[index].cantidadDeCortes,
-          priceCut(value, newArray.toView[index].priceMetro)
-        ),
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
-        tamañoDelCorte: value,
-        precioDelCorte: priceCut(value, newArray.toView[index].priceMetro),
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          newArray.toView[index].cantidadDeCortes,
-          priceCut(value, newArray.toView[index].priceMetro)
-        ),
-      };
-    } else if (name === 'cantidadDeCortes') {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
-        cantidadDeCortes: value,
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          value,
-          newArray.toView[index].precioDelCorte
-        ),
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
-        cantidadDeCortes: value,
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          value,
-          newArray.toView[index].precioDelCorte
-        ),
-      };
-    } else {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
-        [name]: value,
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
-        [name]: value,
-      };
-    }
-    setRawMaterialsArrayToView(newArray.toView);
-    setRawMaterialsArrayToSend(newArray.toSend);
+
+    setRawMaterialsArrayToView(updatedArrayToView); // Actualizar estado local
   };
+
   const handleBtnState = (action) => {
     setButtonsState({
       buscar: action === 'buscar',
@@ -81,43 +48,38 @@ const CreateRawMaterialsSection = () => {
       cerrar: action === 'cerrar',
     });
   };
-  const handleDeleteItem = (id) => {
-    const updatedToView = rawMaterialsArrayToView.filter((item) => item._id !== id);
-    const updatedToSend = rawMaterialsArrayToSend.filter((item) => item.rawMaterialId !== id);
 
-    setRawMaterialsArrayToView(updatedToView);
-    setRawMaterialsArrayToSend(updatedToSend);
+  const handleDelete = (index) => {
+    setRawMaterialsArrayToView((prevToView) => {
+      const updatedToView = [...prevToView];
+      updatedToView.splice(index, 1);
+      return updatedToView;
+    });
+
+    setRawMaterialsArrayToSend((prevToSend) => {
+      const updatedToSend = [...prevToSend];
+      updatedToSend.splice(index, 1);
+      return updatedToSend;
+    });
   };
-  useEffect(() => {
-    console.log(rawMaterialsSection);
-    console.log(createProductState);
 
-  }, []);
   useEffect(() => {
-    console.log(rawMaterialsSection);
-  }, [rawMaterialsSection]);
-  useEffect(() => {
-    setRawMaterialsArrayToSend([...rawMaterialsSection. rawMaterialsArrayToSend])
-    setRawMaterialsArrayToView([...rawMaterialsSection. rawMaterialsArrayToView])
-  }, [rawMaterialsSection]);
-  useEffect(()=>{
-  if (rawMaterialsArrayToView.length === 0) {
-    dispatch(reset());
-  }
-  },[rawMaterialsArrayToView,rawMaterialsArrayToSend])
-  useEffect(()=>{
     console.log(rawMaterialsArrayToSend);
-    console.log(rawMaterialsSection);
-      },[rawMaterialsArrayToSend])
+    console.log(rawMaterialsArrayToView);
+  }, [rawMaterialsArrayToSend, rawMaterialsArrayToView]);
 
+  useEffect(() => {
+    console.log(rawMaterialsSection);
+  }, [rawMaterialsSection]);
 
   return (
     <div className="container mt-4">
       <h3>Materias primas</h3>
-      {rawMaterialsArrayToView.length > 0 ? (
+      {rawMaterialsSection.rawMaterialsArrayToView && rawMaterialsSection.rawMaterialsArrayToView.length > 0 ? (
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead>
+              {/* ... Otras partes del encabezado de la tabla ... */}
               <tr>
                 <th scope="col">Tipo</th>
                 <th scope="col">Nombre</th>
@@ -134,8 +96,9 @@ const CreateRawMaterialsSection = () => {
               </tr>
             </thead>
             <tbody>
-              {rawMaterialsArrayToView.map((item, index) => (
+              {rawMaterialsSection.rawMaterialsArrayToView.map((item, index) => (
                 <tr key={index}>
+                  {/* ... Renderizar celdas de la tabla ... */}
                   <td>{item.shape.nameShape}</td>
                   <td>{item.material.nameMaterial}</td>
                   <td>{item.externalDiameter}</td>
@@ -152,6 +115,7 @@ const CreateRawMaterialsSection = () => {
                       className="form-control"
                     />
                   </td>
+                  {/* ... Otras celdas de entrada ... */}
                   <td>
                     <input
                       type="number"
@@ -182,13 +146,14 @@ const CreateRawMaterialsSection = () => {
                     />
                   </td>
                   <td>
-                  <DeleteRaw onDelete={() => handleDeleteItem(item._id)} />
+                    <button className="btn btn-danger" onClick={() => handleDelete(index)}>
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <Confirm rawMaterialsArrayToSend={rawMaterialsArrayToSend} />
         </div>
       ) : null}
       <div className="mt-3">

@@ -18,6 +18,7 @@ export const rawMaterialSlice = createSlice({
             state.isErrorRawMaterial = false;
             state.messageRawMaterial = '';
             state.isSuccessRawMaterial = false;
+            state.rawMaterials = null
         },
     },
     extraReducers: (builder) => {

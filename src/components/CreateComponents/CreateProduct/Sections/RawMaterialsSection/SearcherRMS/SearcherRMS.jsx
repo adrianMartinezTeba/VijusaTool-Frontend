@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRM,reset} from '../../../../../../features/Promises/rawMaterial/rawMaterialSlice';
-import AddToCreProRMSecFromSearcherRMSec from '../../../../../Buttons/AddToCreProRMSecFromSearcherRMSec/AddToCreProRMSecFromSearcherRMSec';
+import AddOnSearcherRMS from '../Buttons/AddOnSearcherRMS/AddOnSearcherRMS';
 const SearcherRMS = () => {
   const dispatch = useDispatch();
   const { rawMaterials} = useSelector((state) => state.rawMaterial);
@@ -39,7 +39,7 @@ const SearcherRMS = () => {
                 <td>{material.wheightMeter}</td>
                 <td>{material.priceMetro}</td>
                 <td>
-                 <AddToCreProRMSecFromSearcherRMSec RMData={material}/>
+                 <AddOnSearcherRMS RMData={material}/>
                 </td>
               </tr>
             ))

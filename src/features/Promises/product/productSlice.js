@@ -72,12 +72,46 @@ export const productSlice = createSlice({
                 state.isSuccess = true
             }).addCase(addToRMSectToSend.fulfilled, (state, action) => {
                 console.log(action.payload._id);
-               
+
                 state.isLoading = false
                 const addingData = { rawMaterialId: action.payload._id, precioDelCorte: '', cantidadDeCortes: '', precioTotalSobreEsaMateriaPrima: '', tamañoDelCorte: '' }
                 state.rawMaterialsSection.rawMaterialsArrayToSend = [...state.rawMaterialsSection.rawMaterialsArrayToSend, addingData]
                 state.message = 'Creado correctamente'
                 state.isSuccess = true
+            })
+            .addCase(deleteRMSectToSend.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.rawMaterialsSection.rawMaterialsArrayToSend = state.rawMaterialsSection.rawMaterialsArrayToSend.filter((data) => data.rawMaterialId !== action.payload)
+                state.message = 'Eliminado correctamente'
+                state.isSuccess = true
+            })
+            .addCase(deleteRMSectToView.fulfilled, (state, action) => {
+                state.isLoading = false
+                console.log(state.rawMaterialsSection.rawMaterialsArrayToView);
+                console.log(action.payload);
+                state.rawMaterialsSection.rawMaterialsArrayToView = state.rawMaterialsSection.rawMaterialsArrayToView.filter((data) => data._id !== action.payload)
+                state.message = 'Eliminado correctamente'
+                state.isSuccess = true
+            })
+            .addCase(addToCreateProductState.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const { functionName, data } = action.meta.arg;
+                // Actualizar el estado según la función ejecutada
+                switch (functionName) {
+                    case 'addCustomerId':
+                        state.createProductState.customerId = data;
+                        break;
+                    case 'addModelName':
+                        state.createProductState.modelName = data;
+                        break;
+                    // Puedes agregar más casos según sea necesario para otras funciones
+
+                    default:
+                        break;
+                }
+
+                state.message = 'Creado correctamente';
+                state.isSuccess = true;
             })
     },
 });
@@ -114,6 +148,20 @@ export const addToRMSectToSend = createAsyncThunk("product/addToRMSectToSend ", 
         return await productService.addToRMSectToSend(newData);
     } catch (error) {
 
+    } console.error(error);
+    return thunkAPI.rejectWithValue(message);
+})
+export const deleteRMSectToView = createAsyncThunk("product/deleteRMSectToView ", async (id, thunkAPI) => {
+    try {
+        return await productService.deleteRMSectToView(id);
+    } catch (error) {
+    } console.error(error);
+    return thunkAPI.rejectWithValue(message);
+})
+export const deleteRMSectToSend = createAsyncThunk("product/deleteRMSectToSend ", async (id, thunkAPI) => {
+    try {
+        return await productService.deleteRMSectToSend(id);
+    } catch (error) {
     } console.error(error);
     return thunkAPI.rejectWithValue(message);
 })
@@ -157,5 +205,16 @@ export const updateProduct = createAsyncThunk("product/updateProduct ", async (i
     } console.error(error);
     return thunkAPI.rejectWithValue(message);
 })
+export const addToCreateProductState = createAsyncThunk(
+    "product/addToCreateProductState",
+    async ({ functionName, data }, thunkAPI) => {
+        try {
+            return await productService.addToCreateProductState.executeFunction(functionName, data);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
 export const { reset } = productSlice.actions;
 export default productSlice.reducer;

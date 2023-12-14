@@ -37,6 +37,9 @@ export const contactSlice = createSlice({
                 state.message = 'Creado correctamente'
                 state.isSuccess = true
             })
+            .addCase(getContacts.fulfilled, (state,action) => {
+                state.contacts = action.payload
+            })
     },
 });
 

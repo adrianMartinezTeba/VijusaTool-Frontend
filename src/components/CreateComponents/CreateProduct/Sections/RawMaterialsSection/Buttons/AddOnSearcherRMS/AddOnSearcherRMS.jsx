@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import { addToRMSectToSend, addToRMSectToView } from '../../../features/Promises/product/productSlice';
-const AddToCreProRMSecFromSearcherRMSec = ({ RMData }) => {
+import { addToRMSectToSend, addToRMSectToView } from '../../../../../../../features/Promises/product/productSlice';
+import './AddOnSearcherRMS.scss'
+const AddOnSearcherRMS = ({ RMData }) => {
   const dispatch = useDispatch();
   const handleClick = (data) => {
     dispatch(addToRMSectToSend(data))
@@ -14,4 +15,4 @@ const AddToCreProRMSecFromSearcherRMSec = ({ RMData }) => {
   )
 }
 
-export default AddToCreProRMSecFromSearcherRMSec
+export default AddOnSearcherRMS

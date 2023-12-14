@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './CreateRawMaterialsSection.scss';
+import './RawMaterialsSection.scss';
 import CreateRawMaterial from '../../../CreateRawMaterial/CreateRawMaterial.jsx';
 import SearcherRMS from './SearcherRMS/SearcherRMS.jsx';
 import { priceOnThisRawMaterial, priceCut } from '../../../../../features/NoPromises/operationsRawMaterialSection/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCreateProductRMObj, reset, addToRMSectToSend, addToRMSectToView } from '../../../../../features/Promises/product/productSlice.js';
-import DeleteRaw from './Buttons/deleteRaw/deleteRaw.jsx';
+import {reset,addToRMSectToSend,addToRMSectToView} from '../../../../../features/Promises/product/productSlice.js';
+import DeleteRaw from './Buttons/DeleteRaw/DeleteRaw.jsx';
 import Confirm from './Buttons/Confirm/Confirm.jsx';
 
-const CreateRawMaterialsSection = () => {
+const RawMaterialsSection = () => {
   const dispatch = useDispatch();
   const { createProductState, rawMaterialsSection } = useSelector((state) => state.product);
   const [buttonsState, setButtonsState] = useState({
@@ -21,10 +21,11 @@ const CreateRawMaterialsSection = () => {
   const [rawMaterialsArrayToSend, setRawMaterialsArrayToSend] = useState([]);
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    const newArray= {
-      toView:[...rawMaterialsArrayToView],
-      toSend:[...rawMaterialsArrayToSend]
+    const newArray = {
+      toView: [...rawMaterialsArrayToView],
+      toSend: [...rawMaterialsArrayToSend]
     };
+    console.log(newArray);
     if (name === 'tamañoDelCorte') {
       newArray.toView[index] = {
         ...newArray.toView[index],
@@ -73,6 +74,9 @@ const CreateRawMaterialsSection = () => {
     }
     setRawMaterialsArrayToView(newArray.toView);
     setRawMaterialsArrayToSend(newArray.toSend);
+    dispatch(addToRMSectToView(newArray.toView));
+    dispatch(addToRMSectToSend(newArray.toSend));
+    // dispatch(addToCreateProductRMObj(rawMaterialsArrayToSend))
   };
   const handleBtnState = (action) => {
     setButtonsState({
@@ -81,34 +85,28 @@ const CreateRawMaterialsSection = () => {
       cerrar: action === 'cerrar',
     });
   };
-  const handleDeleteItem = (id) => {
-    const updatedToView = rawMaterialsArrayToView.filter((item) => item._id !== id);
-    const updatedToSend = rawMaterialsArrayToSend.filter((item) => item.rawMaterialId !== id);
 
-    setRawMaterialsArrayToView(updatedToView);
-    setRawMaterialsArrayToSend(updatedToSend);
-  };
   useEffect(() => {
-    console.log(rawMaterialsSection);
-    console.log(createProductState);
-
+    // console.log(rawMaterialsSection);
+    // console.log(createProductState);
   }, []);
   useEffect(() => {
-    console.log(rawMaterialsSection);
+    // console.log(rawMaterialsSection);
   }, [rawMaterialsSection]);
   useEffect(() => {
-    setRawMaterialsArrayToSend([...rawMaterialsSection. rawMaterialsArrayToSend])
-    setRawMaterialsArrayToView([...rawMaterialsSection. rawMaterialsArrayToView])
+    setRawMaterialsArrayToSend([...rawMaterialsSection.rawMaterialsArrayToSend])
+    setRawMaterialsArrayToView([...rawMaterialsSection.rawMaterialsArrayToView])
   }, [rawMaterialsSection]);
-  useEffect(()=>{
-  if (rawMaterialsArrayToView.length === 0) {
-    dispatch(reset());
-  }
-  },[rawMaterialsArrayToView,rawMaterialsArrayToSend])
-  useEffect(()=>{
-    console.log(rawMaterialsArrayToSend);
-    console.log(rawMaterialsSection);
-      },[rawMaterialsArrayToSend])
+  useEffect(() => {
+    if (rawMaterialsArrayToView.length === 0) {
+      dispatch(reset());
+    }
+    // console.log(rawMaterialsArrayToView);
+  }, [rawMaterialsArrayToView])
+  useEffect(() => {
+    // console.log(rawMaterialsArrayToSend);
+    // console.log(rawMaterialsSection);
+  }, [rawMaterialsArrayToSend])
 
 
   return (
@@ -182,7 +180,7 @@ const CreateRawMaterialsSection = () => {
                     />
                   </td>
                   <td>
-                  <DeleteRaw onDelete={() => handleDeleteItem(item._id)} />
+                    <DeleteRaw id={item._id} />
                   </td>
                 </tr>
               ))}
@@ -218,4 +216,4 @@ const CreateRawMaterialsSection = () => {
   );
 };
 
-export default CreateRawMaterialsSection;
+export default RawMaterialsSection;

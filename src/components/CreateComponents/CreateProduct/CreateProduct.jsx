@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import CreateRawMaterialsSection from './Sections/CreateRawMaterialsSection/CreateRawMaterialsSection';
+import RawMaterialsSection from './Sections/RawMaterialsSection/RawMaterialsSection';
 import CreateOperationsSection from './Sections/CreateOperationsSection/CreateOperationsSection';
 import { useDispatch, useSelector } from 'react-redux';
-
+import CustomerSection from './Sections/CustomerSection/CustomerSection';
+import ModelNameSection from './Sections/ModelNameSection/ModelNameSection';
 const CreateProduct = () => {
+  const dispatch = useDispatch();
   const { createProductState } = useSelector((state) => state.product);
   const [productComponente, setProductComponent] = useState({
     modelName: '',
     rawMaterials: [],
     operationToFollow: [],
     customerId: '',
+    customerName: '',
     totalPrice: '',
     notes: ''
   });
@@ -38,14 +41,27 @@ const CreateProduct = () => {
     });
   
     // Lógica adicional cuando productComponente cambia
+    
+  }, [ createProductState]);
+
+  useEffect(() => {
+    // setProductComponent({
+    //   ...productComponente,
+    //   customerId: createProductState.customerId,
+    // })
     console.log(createProductState);
-  }, [productComponente.rawMaterials, productComponente.operationToFollow, createProductState]);
-  
+  }, [createProductState]);
   return (
     <>
       <h2>Crear Producto</h2>
+      <div className='modelName'>
+       <ModelNameSection/>
+      </div>
+      <div className="customerData">
+       <CustomerSection/>
+      </div>
       <div>
-        <CreateRawMaterialsSection />
+        <RawMaterialsSection />
       </div>
       <div>
         <CreateOperationsSection />

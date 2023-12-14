@@ -1,7 +1,27 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8080";
-
+const addToCreateProductState = {
+    addCustomerId : (data) => {
+        return data
+    },
+    addModelName: (data) => {
+        return data
+  
+    },
+    addRawMaterials: (data) => {
+        return data
+    },
+    executeFunction: (functionName, data) => {
+        // Verifica el nombre de la función y ejecuta la correspondiente
+        if (functionName && addToCreateProductState[functionName]) {
+            return addToCreateProductState[functionName](data);
+        }
+        // Si el nombre de la función no es válido, puedes manejarlo como desees
+        console.error('Función no válida');
+        return Promise.reject('Función no válida');
+    },
+}
 const getProducts = async () => {
     const res = await axios.get(`${API_URL}/product/get`);
     return res.data;
@@ -25,7 +45,12 @@ const addToRMSectToView = async(newData) => {
 const addToRMSectToSend = async(newData) => {
     return newData
  };
-
+const deleteRMSectToView = async(newData) => {
+    return newData
+ };
+const deleteRMSectToSend = async(newData) => {
+    return newData
+ };
 const deleteProduct = async (id) => {
     const res = await axios.delete(`${API_URL}/product/delete/${id}`);
     return res.data;
@@ -41,10 +66,13 @@ create,
 addToCreateProductRMObj,
 addToRMSectToView,
 addToRMSectToSend,
+deleteRMSectToView,
+deleteRMSectToSend,
 deleteProduct,
 getProductById,
 getProducts,
-updateProduct
+updateProduct,
+addToCreateProductState
 };
 
 export default productService;

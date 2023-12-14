@@ -1,12 +1,10 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import { addToRMSectToSend, addToRMSectToView } from '../../../../../../../features/Promises/product/productSlice';
 import './AddOnSearcherRMS.scss'
-const AddOnSearcherRMS = ({ RMData }) => {
-  const dispatch = useDispatch();
+const AddOnSearcherRMS = ({ RMData,addToRawMaterialsArray }) => {
   const handleClick = (data) => {
-    dispatch(addToRMSectToSend(data))
-    dispatch(addToRMSectToView(data))
+    addToRawMaterialsArray(data)
+
   }
   return (
     <div>

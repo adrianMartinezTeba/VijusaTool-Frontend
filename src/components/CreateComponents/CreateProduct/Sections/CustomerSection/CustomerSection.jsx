@@ -19,16 +19,16 @@ const CustomerSection = () => {
       cerrar: action === 'cerrar',
     });
   };
-  const handleAddCustToView = (customerName,customerId) => {
-    setCustomerToView({name: customerName});
+  const handleAddCustToView = (customerName, customerId) => {
+    setCustomerToView({ name: customerName });
     dispatch(addToCreateProductState({ functionName: 'addCustomerId', data: customerId }));
   }
   useEffect(() => {
-  // console.log(customerToView);
+    // console.log(customerToView);
   }, [customerToView]);
   return (
     <>
-    Cliente: {customerToView.name}
+      Cliente: {customerToView.name}
       {
         buttonsStateCustomerSection.buscar ? (
           <div>
@@ -42,8 +42,8 @@ const CustomerSection = () => {
           </div>
         ) : buttonsStateCustomerSection.cerrar ? (
           <div>
-            <button onClick={() => handleBtnStateCustomerSection('crear')}>Crear</button>
             <button onClick={() => handleBtnStateCustomerSection('buscar')}>Buscar</button>
+            <button onClick={() => handleBtnStateCustomerSection('crear')}>Crear</button>
           </div>
         ) : null
       }

@@ -7,9 +7,11 @@ const addToCreateProductState = {
     },
     addModelName: (data) => {
         return data
-  
     },
     addRawMaterials: (data) => {
+        return data
+    },
+    deleteRawMaterial: (data) => {
         return data
     },
     executeFunction: (functionName, data) => {
@@ -35,22 +37,22 @@ const create = async (product) => {
 
     return res.data;
 }
-const addToCreateProductRMObj = async (newData) => {
+// const addToCreateProductRMObj = async (newData) => {
 
-   return newData ;
-};
-const addToRMSectToView = async(newData) => {
-   return newData
-};
-const addToRMSectToSend = async(newData) => {
-    return newData
- };
-const deleteRMSectToView = async(newData) => {
-    return newData
- };
-const deleteRMSectToSend = async(newData) => {
-    return newData
- };
+//    return newData ;
+// };
+// const addToRMSectToView = async(newData) => {
+//    return newData
+// };
+// const addToRMSectToSend = async(newData) => {
+//     return newData
+//  };
+// const deleteRMSectToView = async(newData) => {
+//     return newData
+//  };
+// const deleteRMSectToSend = async(newData) => {
+//     return newData
+//  };
 const deleteProduct = async (id) => {
     const res = await axios.delete(`${API_URL}/product/delete/${id}`);
     return res.data;
@@ -63,11 +65,11 @@ const updateProduct = async (updProduct,id) => {
 
 const productService = {
 create,
-addToCreateProductRMObj,
-addToRMSectToView,
-addToRMSectToSend,
-deleteRMSectToView,
-deleteRMSectToSend,
+// addToCreateProductRMObj,
+// addToRMSectToView,
+// addToRMSectToSend,
+// deleteRMSectToView,
+// deleteRMSectToSend,
 deleteProduct,
 getProductById,
 getProducts,

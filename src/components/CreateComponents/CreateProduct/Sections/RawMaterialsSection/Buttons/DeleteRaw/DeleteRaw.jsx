@@ -1,16 +1,17 @@
 import React from 'react';
 import {useDispatch } from 'react-redux';
-import {deleteRMSectToSend,deleteRMSectToView} from '../../../../../../../features/Promises/product/productSlice.js';
-const DeleteRaw = ({id }) => {
+import {addToCreateProductState} from '../../../../../../../features/Promises/product/productSlice.js';
+import './DeleteRaw.scss'
+const DeleteRaw = ({index, deleteRawMaterialFromArray}) => {
   const dispatch = useDispatch();
-  const onDelete = (itemId) => {
-    console.log(itemId);
-    dispatch(deleteRMSectToView(itemId));
-    dispatch(deleteRMSectToSend(itemId));
+  const onDelete = (data) => {
+    console.log(data);
+    deleteRawMaterialFromArray(data);
+    dispatch(addToCreateProductState({ functionName: 'deleteRawMaterial', data: data}));
   };
   return (
     <div>
-      <button onClick={() => onDelete(id)}>Eliminar</button>
+      <button onClick={() => onDelete(index)}>Eliminar</button>
     </div>
   );
 };

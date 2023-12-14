@@ -4,79 +4,56 @@ import CreateRawMaterial from '../../../CreateRawMaterial/CreateRawMaterial.jsx'
 import SearcherRMS from './SearcherRMS/SearcherRMS.jsx';
 import { priceOnThisRawMaterial, priceCut } from '../../../../../features/NoPromises/operationsRawMaterialSection/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {reset,addToRMSectToSend,addToRMSectToView} from '../../../../../features/Promises/product/productSlice.js';
+import {reset,addToCreateProductState} from '../../../../../features/Promises/product/productSlice.js';
 import DeleteRaw from './Buttons/DeleteRaw/DeleteRaw.jsx';
-import Confirm from './Buttons/Confirm/Confirm.jsx';
-
 const RawMaterialsSection = () => {
   const dispatch = useDispatch();
-  const { createProductState, rawMaterialsSection } = useSelector((state) => state.product);
   const [buttonsState, setButtonsState] = useState({
     buscar: false,
     crear: false,
     cerrar: true,
   });
+  const [rawMaterialsArray, setRawMaterialsArray] = useState([]);
 
-  const [rawMaterialsArrayToView, setRawMaterialsArrayToView] = useState([]);
-  const [rawMaterialsArrayToSend, setRawMaterialsArrayToSend] = useState([]);
+  const addToRawMaterialsArray = (data) =>{
+    const addingData = { ...data,rawMaterialId: data._id,precioDelCorte: '', cantidadDeCortes: '', precioTotalSobreEsaMateriaPrima: '', tamañoDelCorte: '' }
+    setRawMaterialsArray([...rawMaterialsArray,addingData])
+  }
+  const deleteRawMaterialFromArray = (data) =>{
+    const newArray = [...rawMaterialsArray];
+    newArray.splice(data, 1);
+    setRawMaterialsArray(newArray);
+  }
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    const newArray = {
-      toView: [...rawMaterialsArrayToView],
-      toSend: [...rawMaterialsArrayToSend]
-    };
-    console.log(newArray);
+    const newArray = [...rawMaterialsArray];
     if (name === 'tamañoDelCorte') {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
+      newArray[index] = {
+        ...newArray[index],
         tamañoDelCorte: value,
-        precioDelCorte: priceCut(value, newArray.toView[index].priceMetro),
+        precioDelCorte: priceCut(value, newArray[index].priceMetro),
         precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          newArray.toView[index].cantidadDeCortes,
-          priceCut(value, newArray.toView[index].priceMetro)
-        ),
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
-        tamañoDelCorte: value,
-        precioDelCorte: priceCut(value, newArray.toView[index].priceMetro),
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          newArray.toView[index].cantidadDeCortes,
-          priceCut(value, newArray.toView[index].priceMetro)
+          newArray[index].cantidadDeCortes,
+          priceCut(value, newArray[index].priceMetro)
         ),
       };
     } else if (name === 'cantidadDeCortes') {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
+      newArray[index] = {
+        ...newArray[index],
         cantidadDeCortes: value,
         precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
           value,
-          newArray.toView[index].precioDelCorte
-        ),
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
-        cantidadDeCortes: value,
-        precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
-          value,
-          newArray.toView[index].precioDelCorte
+          newArray[index].precioDelCorte
         ),
       };
     } else {
-      newArray.toView[index] = {
-        ...newArray.toView[index],
-        [name]: value,
-      };
-      newArray.toSend[index] = {
-        ...newArray.toSend[index],
+      newArray[index] = {
+        ...newArray[index],
         [name]: value,
       };
     }
-    setRawMaterialsArrayToView(newArray.toView);
-    setRawMaterialsArrayToSend(newArray.toSend);
-    dispatch(addToRMSectToView(newArray.toView));
-    dispatch(addToRMSectToSend(newArray.toSend));
-    // dispatch(addToCreateProductRMObj(rawMaterialsArrayToSend))
+setRawMaterialsArray(newArray);
+dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArray}));
   };
   const handleBtnState = (action) => {
     setButtonsState({
@@ -85,34 +62,13 @@ const RawMaterialsSection = () => {
       cerrar: action === 'cerrar',
     });
   };
-
   useEffect(() => {
-    // console.log(rawMaterialsSection);
-    // console.log(createProductState);
-  }, []);
-  useEffect(() => {
-    // console.log(rawMaterialsSection);
-  }, [rawMaterialsSection]);
-  useEffect(() => {
-    setRawMaterialsArrayToSend([...rawMaterialsSection.rawMaterialsArrayToSend])
-    setRawMaterialsArrayToView([...rawMaterialsSection.rawMaterialsArrayToView])
-  }, [rawMaterialsSection]);
-  useEffect(() => {
-    if (rawMaterialsArrayToView.length === 0) {
-      dispatch(reset());
-    }
-    // console.log(rawMaterialsArrayToView);
-  }, [rawMaterialsArrayToView])
-  useEffect(() => {
-    // console.log(rawMaterialsArrayToSend);
-    // console.log(rawMaterialsSection);
-  }, [rawMaterialsArrayToSend])
-
-
+    console.log(rawMaterialsArray);
+  },[rawMaterialsArray])
   return (
     <div className="container mt-4">
       <h3>Materias primas</h3>
-      {rawMaterialsArrayToView.length > 0 ? (
+      {rawMaterialsArray.length > 0 ? (
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead>
@@ -132,7 +88,7 @@ const RawMaterialsSection = () => {
               </tr>
             </thead>
             <tbody>
-              {rawMaterialsArrayToView.map((item, index) => (
+              {rawMaterialsArray.map((item, index) => (
                 <tr key={index}>
                   <td>{item.shape.nameShape}</td>
                   <td>{item.material.nameMaterial}</td>
@@ -180,18 +136,17 @@ const RawMaterialsSection = () => {
                     />
                   </td>
                   <td>
-                    <DeleteRaw id={item._id} />
+                    <DeleteRaw deleteRawMaterialFromArray={deleteRawMaterialFromArray} index={index} />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <Confirm rawMaterialsArrayToSend={rawMaterialsArrayToSend} />
         </div>
       ) : null}
       <div className="mt-3">
         {buttonsState.buscar ? (
-          <SearcherRMS buttonsState={buttonsState} />
+          <SearcherRMS buttonsState={buttonsState} addToRawMaterialsArray={addToRawMaterialsArray} />
         ) : buttonsState.crear ? (
           <CreateRawMaterial handleBtnState={handleBtnState} buttonsState={buttonsState} />
         ) : null}
@@ -214,6 +169,5 @@ const RawMaterialsSection = () => {
       </div>
     </div>
   );
-};
-
+}; 
 export default RawMaterialsSection;

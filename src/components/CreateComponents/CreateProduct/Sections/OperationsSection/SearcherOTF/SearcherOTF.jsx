@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOTF } from '../../../../../../features/Promises/operationToFollow/operationToFollowSlice.js';
 import './SearcherOTF.scss';
+import AddOnSearcherOTF from '../Buttons/AddOnSearcherOTF/AddOnSearcherOTF.jsx';
 
-const SearcherOTF = ({ addToArray }) => {
+const SearcherOTF = ({ addToOTFArray }) => {
   const dispatch = useDispatch();
   const { operationsTF } = useSelector((state) => state.operationToFollow);
 
@@ -13,6 +14,7 @@ const SearcherOTF = ({ addToArray }) => {
 
   useEffect(() => {
     // Lógica adicional cuando operationsTF cambia
+    console.log(operationsTF);
   }, [operationsTF]);
 
   return (
@@ -35,9 +37,7 @@ const SearcherOTF = ({ addToArray }) => {
                   <td>{operation.codeOperation}</td>
                   <td>{operation.priceHourEur}</td>
                   <td>
-                    <button className='btn btn-primary' onClick={(e) => { addToArray(operation, e) }}>
-                      Añadir
-                    </button>
+                   <AddOnSearcherOTF addToOTFArray={addToOTFArray} OTFData={operation}/>
                   </td>
                 </tr>
               ))}

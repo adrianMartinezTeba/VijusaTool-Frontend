@@ -4,7 +4,7 @@ import CreateRawMaterial from '../../../CreateRawMaterial/CreateRawMaterial.jsx'
 import SearcherRMS from './SearcherRMS/SearcherRMS.jsx';
 import { priceOnThisRawMaterial, priceCut } from '../../../../../features/NoPromises/operationsRawMaterialSection/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {reset,addToCreateProductState} from '../../../../../features/Promises/product/productSlice.js';
+import { reset, addToCreateProductState } from '../../../../../features/Promises/product/productSlice.js';
 import DeleteRaw from './Buttons/DeleteRaw/DeleteRaw.jsx';
 const RawMaterialsSection = () => {
   const dispatch = useDispatch();
@@ -14,12 +14,18 @@ const RawMaterialsSection = () => {
     cerrar: true,
   });
   const [rawMaterialsArray, setRawMaterialsArray] = useState([]);
-
-  const addToRawMaterialsArray = (data) =>{
-    const addingData = { ...data,rawMaterialId: data._id,precioDelCorte: '', cantidadDeCortes: '', precioTotalSobreEsaMateriaPrima: '', tamañoDelCorte: '' }
-    setRawMaterialsArray([...rawMaterialsArray,addingData])
+  const handleBtnState = (action) => {
+    setButtonsState({
+      buscar: action === 'buscar',
+      crear: action === 'crear',
+      cerrar: action === 'cerrar',
+    });
+  };
+  const addToRawMaterialsArray = (data) => {
+    const addingData = { ...data, rawMaterialId: data._id, precioDelCorte: '', cantidadDeCortes: '', precioTotalSobreEsaMateriaPrima: '', tamañoDelCorte: '' }
+    setRawMaterialsArray([...rawMaterialsArray, addingData])
   }
-  const deleteRawMaterialFromArray = (data) =>{
+  const deleteRawMaterialFromArray = (data) => {
     const newArray = [...rawMaterialsArray];
     newArray.splice(data, 1);
     setRawMaterialsArray(newArray);
@@ -52,19 +58,13 @@ const RawMaterialsSection = () => {
         [name]: value,
       };
     }
-setRawMaterialsArray(newArray);
-dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArray}));
+    setRawMaterialsArray(newArray);
+    dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArray }));
   };
-  const handleBtnState = (action) => {
-    setButtonsState({
-      buscar: action === 'buscar',
-      crear: action === 'crear',
-      cerrar: action === 'cerrar',
-    });
-  };
+
   useEffect(() => {
     console.log(rawMaterialsArray);
-  },[rawMaterialsArray])
+  }, [rawMaterialsArray])
   return (
     <div className="container mt-4">
       <h3>Materias primas</h3>
@@ -169,5 +169,5 @@ dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArr
       </div>
     </div>
   );
-}; 
+};
 export default RawMaterialsSection;

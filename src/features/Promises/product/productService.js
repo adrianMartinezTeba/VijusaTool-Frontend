@@ -14,6 +14,15 @@ const addToCreateProductState = {
     deleteRawMaterial: (data) => {
         return data
     },
+    addOperation: (data) => {
+        return data
+    },
+    deleteOperation: (data) => {
+        return data
+    },
+    addTotalPrice: (data) => {
+        return data
+    },
     executeFunction: (functionName, data) => {
         // Verifica el nombre de la función y ejecuta la correspondiente
         if (functionName && addToCreateProductState[functionName]) {
@@ -37,22 +46,6 @@ const create = async (product) => {
 
     return res.data;
 }
-// const addToCreateProductRMObj = async (newData) => {
-
-//    return newData ;
-// };
-// const addToRMSectToView = async(newData) => {
-//    return newData
-// };
-// const addToRMSectToSend = async(newData) => {
-//     return newData
-//  };
-// const deleteRMSectToView = async(newData) => {
-//     return newData
-//  };
-// const deleteRMSectToSend = async(newData) => {
-//     return newData
-//  };
 const deleteProduct = async (id) => {
     const res = await axios.delete(`${API_URL}/product/delete/${id}`);
     return res.data;
@@ -65,11 +58,6 @@ const updateProduct = async (updProduct,id) => {
 
 const productService = {
 create,
-// addToCreateProductRMObj,
-// addToRMSectToView,
-// addToRMSectToSend,
-// deleteRMSectToView,
-// deleteRMSectToSend,
 deleteProduct,
 getProductById,
 getProducts,

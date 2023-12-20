@@ -3,23 +3,23 @@ import ruteToFollowService from "./ruteToFollowService";
 
 const initialState = {
     RTFs: [],
-    createRTF: {
-        rawMaterials: [
-            {
-                productId: '',
-                modelName: '',
-                contactId: '',
-                rawMaterialId: '',
-                cantidadDeCortes: '',
-                operationsToFollow:[
-                    {
-                        operationId: '',
-                        notes: ''
-                    }
-                ]
-            }
-        ]
-    },
+    // createRTF: {
+    //     rawMaterials: [
+    //         {
+    //             productId: '',
+    //             modelName: '',
+    //             contactId: '',
+    //             rawMaterialId: '',
+    //             cantidadDeCortes: '',
+    //             operationsToFollow:[
+    //                 {
+    //                     operationId: '',
+    //                     notes: ''
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
     RTF:  null,
     isLoadingRTF: false,
     isErrorRTF: false,
@@ -44,6 +44,9 @@ export const ruteToFollowSlice = createSlice({
                 state.isSuccessShape = true
                 state.isLoadingShape = false
             })
+            .addCase(addToCrRTF.fulfilled, (state, action) => {
+                
+            })
     },
 });
 
@@ -56,6 +59,16 @@ export const createRTF = createAsyncThunk("ruteToFollow/createRTF ",
             return thunkAPI.rejectWithValue(messageRTF);
         }
     }
-);
+    );
+    export const addToCrRTF = createAsyncThunk("ruteToFollow/addToCrRTF ",
+    async (data, thunkAPI) => {
+        try {
+            return await ruteToFollowService.addToCrRTF(data);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(messageRTF);
+        }
+    }
+    );
 export const { reset } = ruteToFollowSlice.actions;
 export default ruteToFollowSlice.reducer;

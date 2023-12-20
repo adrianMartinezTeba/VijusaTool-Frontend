@@ -16,6 +16,10 @@ const createRTF= async (ruteToFollow) => {
 
     return res.data;
 }
+const addToCrRTF = async (data) => {
+
+    return data;
+}
 const shapeToCreate = async (ruteToFollow) => {
     return ruteToFollow;    
 }
@@ -30,6 +34,7 @@ const updateRTF = async (id,updRTF) => {
 
 const ruteToFollow = {
 createRTF,
+addToCrRTF,
 getRTF,
 getRTFById,
 deleteRTF,

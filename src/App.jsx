@@ -7,7 +7,7 @@ import CreateRawMaterial from "./components/CreateComponents/CreateRawMaterial/C
 import CreateOperationToFollow from "./components/CreateComponents/CreateOperationToFollow/CreateOperationToFollow";
 import NavBar from "./components/NavBar/NavBar";
 import CreateContact from "./components/CreateComponents/CreateContact/CreateContact";
-import RuteToFollow from "./components/CreateComponents/CreateProduct/Sections/ruteToFollow/ruteToFollow";
+import RuteToFollow from "./components/CreateComponents/CreateProduct/Sections/RuteToFollow/RuteToFollow";
 
 function App() {
 

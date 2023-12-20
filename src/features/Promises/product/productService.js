@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 const addToCreateProductState = {
-    addCustomerId : (data) => {
+    addContactId : (data) => {
         return data
     },
     addModelName: (data) => {
@@ -41,6 +41,11 @@ const getProductById = async (id) => {
     const res = await axios.get(`${API_URL}/product/get/${id}`);
     return res.data;
 };
+const getLastProduct = async () => {
+    const res = await axios.get(`${API_URL}/product/getLast`);
+    console.log(res.data);
+    return res.data;
+}
 const create = async (product) => {
     const res = await axios.post(`${API_URL}/product/create`,product);
 
@@ -61,6 +66,7 @@ create,
 deleteProduct,
 getProductById,
 getProducts,
+getLastProduct,
 updateProduct,
 addToCreateProductState
 };

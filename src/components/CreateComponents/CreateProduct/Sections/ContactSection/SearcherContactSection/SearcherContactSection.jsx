@@ -29,8 +29,6 @@ const SearcherCustomerSection = ({handleAddCustToView}) => {
                         <th scope='col'>Dirección</th>
                         <th scope='col'>Tipo</th>
                         <th scope='col'>Teléfono</th>
-                        <th scope='col'>Notas</th>
-                        <th scope='col'>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,11 +36,9 @@ const SearcherCustomerSection = ({handleAddCustToView}) => {
                         contacts.map((contact) => (
                             <tr onClick={() => handleAddCustToView(contact.name, contact._id)}  key={contact._id}>
                                 <td>{contact.name}</td>
-                                <td>{contact.address}</td>
+                                <td>{contact.address ? contact.address : 'Sin dirección'}</td>
                                 <td>{contact.type}</td>
                                 <td>{contact.tlfn}</td>
-                                <td>{contact.notes && contact.notes.join(', ')}</td>
-                                <td>{/* Agrega las acciones necesarias aquí */}</td>
                             </tr>
                         ))
                     ) : (

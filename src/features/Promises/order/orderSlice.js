@@ -3,7 +3,13 @@ import OrderService from "./orderService";
 
 const initialState = {
     orders: [],
-    order:  null,
+    order: null,
+    createOrderState: {
+        products: [],
+        description: '',
+        customerId: '',
+        totalPrice: 0
+    },
     isLoading: false,
     isError: false,
     message: '',
@@ -31,6 +37,17 @@ export const orderSlice = createSlice({
             })
             .addCase(create.rejected, (state) => {
                 state.isError = true;
+            })
+            .addCase(addToCreateOrderState.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const { functionName, data } = action.meta.arg;
+                switch (functionName) {
+                    case 'addProduct':
+                        state.createOrderState.products = data
+                        break;
+                    default:
+                        break;
+                }
             })
     },
 });
@@ -77,13 +94,24 @@ export const deleteOrder = createAsyncThunk("order/deleteOrder ", async (id, thu
     }
 },
 );
-export const updateOrder = createAsyncThunk("order/updateOrder ", async (id,updOrder, thunkAPI) => {
+export const updateOrder = createAsyncThunk("order/updateOrder ", async (id, updOrder, thunkAPI) => {
     try {
-        return await OrderService.updateOrder(id,updOrder);
+        return await OrderService.updateOrder(id, updOrder);
     } catch (error) {
 
     } console.error(error);
     return thunkAPI.rejectWithValue(message);
 })
+export const addToCreateOrderState = createAsyncThunk(
+    "order/addToCreateOrderState ",
+    async ({ functionName, data }, thunkAPI) => {
+        try {
+            return await OrderService.addToCreateOrderState.executeFunction(functionName, data);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
 export const { reset } = orderSlice.actions;
 export default orderSlice.reducer;

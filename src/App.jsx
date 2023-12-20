@@ -6,9 +6,8 @@ import CreateProduct from "./components/CreateComponents/CreateProduct/CreatePro
 import CreateRawMaterial from "./components/CreateComponents/CreateRawMaterial/CreateRawMaterial";
 import CreateOperationToFollow from "./components/CreateComponents/CreateOperationToFollow/CreateOperationToFollow";
 import NavBar from "./components/NavBar/NavBar";
-import CreateMaterial from "./components/CreateComponents/CreateMaterial/CreateMaterial";
-import CreateShape from "./components/CreateComponents/CreateShape/CreateShape";
 import CreateContact from "./components/CreateComponents/CreateContact/CreateContact";
+import RuteToFollow from "./components/CreateComponents/CreateProduct/Sections/ruteToFollow/ruteToFollow";
 
 function App() {
 
@@ -22,9 +21,8 @@ function App() {
             <Route path="/create/product" element={<CreateProduct />} />
             <Route path="/create/rawMaterial" element={<CreateRawMaterial />} />
             <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
-            <Route path="/create/material" element={<CreateMaterial />} />
-            <Route path="/create/shape" element={<CreateShape />} />
             <Route path="/create/contact" element={<CreateContact />} />
+            <Route path="/ruteToFollow" element={<RuteToFollow />} />
           </Routes>
         
       </BrowserRouter>

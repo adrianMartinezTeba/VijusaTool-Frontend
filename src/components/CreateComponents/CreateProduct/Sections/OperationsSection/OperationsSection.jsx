@@ -7,6 +7,7 @@ import {addToCreateProductState} from '../../../../../features/Promises/product/
 import DeleteOTF from './Buttons/DeleteOTF/DeleteOTF.jsx';
 const OperationsSection = () => {
     const dispatch = useDispatch();
+    const { isSuccess } = useSelector((state) => state.product);
     const [buttonsState, setButtonsState] = useState({
         buscar: false,
         crear: false,
@@ -45,6 +46,11 @@ const OperationsSection = () => {
     
     };
     useEffect(() => {
+        if (isSuccess) {
+            setOTFArray([]);
+        }
+    }, [isSuccess]);
+    useEffect(() => {
         console.log(OTFArray);
     }, [OTFArray]);
     return (
@@ -58,7 +64,6 @@ const OperationsSection = () => {
                                 <tr>
                                     <th scope='col'>Nombre</th>
                                     <th scope='col'>Nº operación</th>
-                                    <th scope='col'>Notas</th>
                                     <th scope='col'>Precio/Hora</th>
                                     <th scope='col'>Tiempo esperado(mins)</th>
                                     <th scope='col'>Precio sobre esta operación</th>
@@ -70,9 +75,6 @@ const OperationsSection = () => {
                                     <tr key={index}>
                                         <td>{item.name}</td>
                                         <td>{item.codeOperation}</td>
-                                        <td>
-                                            <input type='text' name='notes' value={item.notes} onChange={(e) => handleInputChange(e, index)} className='form-control' />
-                                        </td>
                                         <td>{item.priceHourEur}</td>
                                         <td>
                                             <input type="Number" name='expectedTime' value={item.expectedTime} onChange={(e) => handleInputChange(e, index)} className='form-control' />

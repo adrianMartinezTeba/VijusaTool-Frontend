@@ -14,6 +14,7 @@ export const rawMaterialSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
+            state.rawMaterial = null
             state.isLoadingRawMaterial = false;
             state.isErrorRawMaterial = false;
             state.messageRawMaterial = '';
@@ -26,7 +27,6 @@ export const rawMaterialSlice = createSlice({
             .addCase(createRM.fulfilled, (state, action) => {
                 state.messageRawMaterial = 'Creado correctamente'
                 state.isSuccessRawMaterial = true
-                state.messageRawMaterial = 'Creado correctamente'
             })
             .addCase(createRM.pending, (state) => {
                 state.isLoadingRawMaterial = true;

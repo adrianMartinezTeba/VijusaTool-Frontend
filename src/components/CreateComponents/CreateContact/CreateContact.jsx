@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './CreateContact.scss'; // Asegúrate de importar tus estilos SCSS
 import { useDispatch, useSelector } from "react-redux";
 import { contactToCreate} from "../../../features/Promises/contact/contactSlice";
-import CreateContactDispatch from '../../Buttons/CreateContactDispatch/CreateContactDispatch';
+import CreateContactDispatch from './Buttons/CreateContactDispatch';
 const CreateContact = () => {
     const dispatch = useDispatch();
-  
     const [contactData, setContactData] = useState({
         name: '',
         address: '',
@@ -13,7 +12,15 @@ const CreateContact = () => {
         tlfn: '',
         productsProvided: '', // Campo para productos proporcionados por proveedores
     });
-
+const resetCrContact = () => {
+    setContactData({
+        name: '',
+        address: '',
+        type: 'Cliente', // Valor por defecto para el tipo de contacto
+        tlfn: '',
+        productsProvided: '', // Campo para productos proporcionados por proveedor
+    });
+}
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setContactData((prevData) => ({
@@ -31,7 +38,7 @@ useEffect(() => {
             <h2>Crear Contacto</h2>
             <form>
                 <div className='form-group'>
-                    <label htmlFor="name">Nombre:</label>
+                    <label htmlFor="name">Nombre(Obligado):</label>
                     <input
                         type="text"
                         id="name"
@@ -41,7 +48,7 @@ useEffect(() => {
                     />
                 </div>
                 <div className='form-group'>
-                    <label htmlFor="address">Dirección:</label>
+                    <label htmlFor="address">Dirección(Opcional):</label>
                     <input
                         type="text"
                         id="address"
@@ -51,7 +58,7 @@ useEffect(() => {
                     />
                 </div>
                 <div className='form-group'>
-                    <label htmlFor="type">Tipo:</label>
+                    <label htmlFor="type">Tipo(Obligado):</label>
                     <select
                         id="type"
                         name="type"
@@ -61,21 +68,10 @@ useEffect(() => {
                         <option value="Cliente">Cliente</option>
                         <option value="Proveedor">Proveedor</option>
                     </select>
+               
                 </div>
-                {contactData.type === "Proveedor" && (
-                    <div className='form-group'>
-                        <label htmlFor="productsProvided">Productos que provee:</label>
-                        <input
-                            type="text"
-                            id="productsProvided"
-                            name="productsProvided"
-                            value={contactData.productsProvided}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                )}
                 <div className='form-group'>
-                    <label htmlFor="tlfn">Teléfono:</label>
+                    <label htmlFor="tlfn">Teléfono(Obligado):</label>
                     <input
                         type="text"
                         id="tlfn"
@@ -84,10 +80,9 @@ useEffect(() => {
                         onChange={handleInputChange}
                     />
                 </div>
-                {/* Otros campos de formulario */}
             </form>
                 <div className='form-group'>
-                    <CreateContactDispatch />
+                    <CreateContactDispatch resetCrContact={resetCrContact}/>
                 </div>
         </div>
     );

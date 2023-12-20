@@ -31,8 +31,8 @@ const SearcherRMS = ({addToRawMaterialsArray}) => {
           {rawMaterials  ? (
             rawMaterials.map((material) => (
               <tr key={material._id}>
-                <td>{material.shape.nameShape}</td>
-                <td>{material.material.nameMaterial}</td>
+                <td>{material.shape}</td>
+                <td>{material.material}</td>
                 <td>{material.externalDiameter}</td>
                 <td>{material.internalDiameter}</td>
                 <td>{material.priceKg}</td>

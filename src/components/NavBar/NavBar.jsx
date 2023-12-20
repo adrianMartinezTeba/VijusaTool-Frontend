@@ -26,13 +26,7 @@ const NavBar = () => {
               <Link to="/create/operationToFollow" className="dropdown-item">Operación</Link>
             </li>
             <li className="nav-item">
-              <Link to="/create/material" className="dropdown-item">Material</Link>
-            </li>
-            <li className="nav-item">
               <Link to="/create/contact" className="dropdown-item">Contacto</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/create/shape" className="dropdown-item">Forma del material</Link>
             </li>
           </ul>
         </li>

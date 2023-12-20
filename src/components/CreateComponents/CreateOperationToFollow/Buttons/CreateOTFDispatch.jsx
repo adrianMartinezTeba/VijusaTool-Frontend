@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch,useSelector } from "react-redux";
-import { createOTF} from "../../../features/Promises/operationToFollow/operationToFollowSlice"; // Asegúrate de importar el slice correcto
+import { createOTF} from "../../../../features/Promises/operationToFollow/operationToFollowSlice"; // Asegúrate de importar el slice correcto
 import './CreateOTFDispatch.scss'
-const CreateOTFDispatch = () => {
+const CreateOTFDispatch = ({resetCrOTF}) => {
     const dispatch = useDispatch()
+    const handleClick = (data) =>{
+        dispatch(createOTF(data))
+        resetCrOTF()
+    }
     const {operationToFollow} = useSelector(
         (state) => state.operationToFollow
       );
@@ -12,7 +16,7 @@ const CreateOTFDispatch = () => {
     }, [operationToFollow]);
   return (
     <div>
-      <button className='btnCreateOTF' onClick={() => dispatch(createOTF(operationToFollow))}>Crear</button>
+      <button className='btnCreateOTF' onClick={() => handleClick(operationToFollow)}>Crear</button>
     </div>
   )
 }

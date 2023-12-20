@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { addToCreateProductState } from '../../../../../features/Promises/product/productSlice';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 const ModelNameSection = () => {
   const dispatch = useDispatch();
   const [modelName, setModelName] = useState('');
-
+  const { isSuccess } = useSelector((state) => state.product);
   const handleInputChange = (e) => {
     const { value } = e.target;
     setModelName(value);
@@ -14,7 +13,11 @@ const ModelNameSection = () => {
     // Actualiza el estado global usando addToCreateProductState.addCustomerId
     dispatch(addToCreateProductState({ functionName: 'addModelName', data: modelName}));
   }, [modelName]);
-
+useEffect(() => {
+  if (isSuccess) {
+    setModelName('');
+  }
+}, [isSuccess]);
   return (
     <div>
       <label htmlFor="modelName">Nombre del modelo:</label>

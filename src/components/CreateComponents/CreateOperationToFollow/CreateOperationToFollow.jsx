@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { OTFToCreate } from '../../../features/Promises/operationToFollow/operationToFollowSlice';
-import CreateOTFDispatch from '../../Buttons/CreateOTFDispatch/CreateOTFDispatch';
+import CreateOTFDispatch from './Buttons/CreateOTFDispatch';
 const CreateOperationToFollow = () => {
   const dispatch = useDispatch();
   const [operationData, setOperationData] = useState({
     name: '',
     codeOperation: '',
-    notes: '',
     priceHourEur: '',
   });
-
+const resetCrOTF = () => {
+    setOperationData({
+        name: '',
+        codeOperation: '',
+        priceHourEur: '',
+    });
+}
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setOperationData((prevData) => ({
@@ -45,14 +50,6 @@ const CreateOperationToFollow = () => {
           />
         </div>
         <div>
-          <label>Notas:</label>
-          <textarea
-            name="notes"
-            value={operationData.notes}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
           <label>Precio por Hora (EUR):</label>
           <input
             type="number"
@@ -65,7 +62,7 @@ const CreateOperationToFollow = () => {
        
       </form>
       <div>
-        <CreateOTFDispatch/>
+        <CreateOTFDispatch resetCrOTF={resetCrOTF}/>
       </div>
     </div>
   );

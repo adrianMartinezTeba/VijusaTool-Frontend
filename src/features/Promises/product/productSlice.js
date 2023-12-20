@@ -2,12 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productService from "./productService";
 
 const initialState = {
-    productsData: [],
+    product:null,
+    products: [],
     createProductState: {
         modelName: '',
         rawMaterials: [],
         operationToFollow: [],
-        customerId: '',
+        contactId: '',
         totalPrice: '',
         notes: ''
     },
@@ -23,7 +24,7 @@ export const productSlice = createSlice({
     reducers: {
         reset: (state) => {
             // state.rawMaterialsSection = initialState.rawMaterialsSection
-            state.createProductState.rawMaterials = initialState.createProductState.rawMaterials
+            state.createProductState = initialState.createProductState
             state.isLoading = false;
             state.isError = false;
             state.message = '';
@@ -42,13 +43,19 @@ export const productSlice = createSlice({
             .addCase(create.rejected, (state) => {
                 state.isError = true;
             })
+            .addCase(getProducts.fulfilled, (state, action) => {
+                state.products = action.payload
+            })
+            .addCase(getLastProduct.fulfilled, (state, action) => {
+                state.product = action.payload
+            })
             .addCase(addToCreateProductState.fulfilled, (state, action) => {
                 state.isLoading = false;
                 const { functionName, data } = action.meta.arg;
                 // Actualizar el estado según la función ejecutada
                 switch (functionName) {
-                    case 'addCustomerId':
-                        state.createProductState.customerId = data;
+                    case 'addContactId':
+                        state.createProductState.contactId = data;
                         break;
                     case 'addModelName':
                         state.createProductState.modelName = data;
@@ -116,6 +123,16 @@ export const getProductById = createAsyncThunk("product/getProductById ",
     }
 
 );
+export const getLastProduct = createAsyncThunk("product/getLastProduct ",
+    async (thunkAPI) => {
+        try {
+            return await productService.getLastProduct();
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(message);
+        }                   
+    }
+)
 
 export const deleteProduct = createAsyncThunk("product/deleteProduct ", async (id, thunkAPI) => {
     try {

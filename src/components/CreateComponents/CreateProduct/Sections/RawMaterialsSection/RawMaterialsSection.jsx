@@ -8,6 +8,7 @@ import { reset, addToCreateProductState } from '../../../../../features/Promises
 import DeleteRaw from './Buttons/DeleteRaw/DeleteRaw.jsx';
 const RawMaterialsSection = () => {
   const dispatch = useDispatch();
+  const { isSuccess } = useSelector((state) => state.product);
   const [buttonsState, setButtonsState] = useState({
     buscar: false,
     crear: false,
@@ -30,6 +31,7 @@ const RawMaterialsSection = () => {
     newArray.splice(data, 1);
     setRawMaterialsArray(newArray);
   }
+
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
     const newArray = [...rawMaterialsArray];
@@ -61,7 +63,9 @@ const RawMaterialsSection = () => {
     setRawMaterialsArray(newArray);
     dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArray }));
   };
-
+  useEffect(() => {
+   setRawMaterialsArray([])
+  }, [isSuccess]);
   useEffect(() => {
     console.log(rawMaterialsArray);
   }, [rawMaterialsArray])
@@ -73,8 +77,8 @@ const RawMaterialsSection = () => {
           <table className="table table-bordered table-hover">
             <thead>
               <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">Forma</th>
+                <th scope="col">Material</th>
                 <th scope="col">Diámetro Externo</th>
                 <th scope="col">Diámetro Interno</th>
                 <th scope="col">Precio por Kg</th>
@@ -90,8 +94,8 @@ const RawMaterialsSection = () => {
             <tbody>
               {rawMaterialsArray.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.shape.nameShape}</td>
-                  <td>{item.material.nameMaterial}</td>
+                  <td>{item.shape}</td>
+                  <td>{item.material}</td>
                   <td>{item.externalDiameter}</td>
                   <td>{item.internalDiameter}</td>
                   <td>{item.priceKg}</td>

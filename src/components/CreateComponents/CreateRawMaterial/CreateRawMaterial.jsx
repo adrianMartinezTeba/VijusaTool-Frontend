@@ -1,13 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RMToCreate } from '../../../features/Promises/rawMaterial/rawMaterialSlice';
-import { getMaterials } from '../../../features/Promises/material/materialSlice';
-import { getShapes } from '../../../features/Promises/shape/shapeSlice';
 import { calculatePriceMetro} from '../../../features/NoPromises/operationsCreateRawMaterial/operations'; // Ajusta la ruta según sea necesario
-import CreateRMDispatch from '../../Buttons/CreateRMDispatch/CreateRMDispatch';
+import CreateRMDispatch from './Buttons/CreateRMDispatch';
 
 const CreateRawMaterial = () => {
+  const dispatch = useDispatch();
   const [rawMaterialData, setRawMaterialData] = useState({
     material: '',
     shape: '',
@@ -17,36 +15,21 @@ const CreateRawMaterial = () => {
     externalDiameter: '',
     internalDiameter: ''
   });
-  const dispatch = useDispatch();
-  const { materials, isSuccessMaterial, isErrorMaterial, messageMaterial } = useSelector(
-    (state) => state.material
-  );
-  const { shapes } = useSelector(
-    (state) => state.shape
-  );
-  const { rawMaterial } = useSelector(
-    (state) => state.rawMaterial
-  );
-
-
-  useEffect(() => {
-    dispatch(getMaterials());
-    dispatch(getShapes());
-  }, []);
-  useEffect(() => {
-console.log(shapes);
-console.log(materials);
-  }, [shapes, materials]);
-  useEffect(() => {
-    console.log(rawMaterialData);
-dispatch(RMToCreate(rawMaterialData));
-  }, [rawMaterialData]);
+const resetInputs = () =>{
+  setRawMaterialData({
+    material: '',
+    shape: '',
+    priceKg: '',
+    priceMetro: '',
+    wheightMeter: '',
+    externalDiameter: '',
+    internalDiameter: ''
+  });
+}
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     if (name === 'priceKg') {
       const priceKg = value;
-
       if (!isNaN(priceKg)) {
         const priceMetro = calculatePriceMetro(priceKg, rawMaterialData.wheightMeter);
         setRawMaterialData((prevData) => ({
@@ -63,7 +46,6 @@ dispatch(RMToCreate(rawMaterialData));
       }
     } else if (name === 'wheightMeter') {
       const wheightMeter = value;
-
       if (!isNaN(wheightMeter)) {
         const priceMetro = calculatePriceMetro(rawMaterialData.priceKg, wheightMeter);
         setRawMaterialData((prevData) => ({
@@ -85,36 +67,30 @@ dispatch(RMToCreate(rawMaterialData));
       }));
     }
   };
-
+  useEffect(() => {
+    dispatch(RMToCreate(rawMaterialData));
+  }, [rawMaterialData]);
   return (
     <div>
       <h2>Crear Materia prima</h2>
       <form>
         <div>
-        <label>Forma:</label>
-          <select name="shape" value={rawMaterialData.shape} onChange={handleInputChange}>
-            <option value="">Seleccionar material existente o crear uno nuevo</option>
-            {shapes ? (
-              shapes.map((shape) => (
-                <option key={shape._id} value={shape._id}>{shape.nameShape}</option>
-              ))
-            ) : (
-              <option value="">Cargando formas...</option>
-            )}
-          </select>
+          <label id='rmShape'>Forma:</label>
+          <input list="shapeOptions" name="shape" value={rawMaterialData.shape} onChange={handleInputChange} placeholder="Ingresar o seleccionar forma" />
+          <datalist id="shapeOptions">
+            <option value="Tubo" />
+            <option value="Pletina" />
+            <option value="Barra" />
+          </datalist>
         </div>
         <div>
-          <label>Tipo de Material:</label>
-          <select name="material" value={rawMaterialData.material} onChange={handleInputChange}>
-            <option value="">Seleccionar tipo de material existente o crear uno nuevo</option>
-            {materials ? (
-              materials.map((material) => (
-                <option key={material._id} value={material._id}>{material.nameMaterial}</option>
-              ))
-            ) : (
-              <option value="">Cargando tipos de materiales...</option>
-            )}
-          </select>
+          <label id='rmMaterial'>Tipo de Material:</label>
+          <input list="materialOptions" name="material" value={rawMaterialData.material} onChange={handleInputChange} placeholder="Ingresar o seleccionar tipo de material" />
+          <datalist id="materialOptions">
+            <option value="Latón" />
+            <option value="Cobre" />
+            <option value="Hierro" />
+          </datalist>
         </div>
         <div>
           <label>Diámetro Externo (mm+):</label>
@@ -136,12 +112,11 @@ dispatch(RMToCreate(rawMaterialData));
           <label>Precio por Metro:</label>
           <input type="text" name="priceMetro" value={rawMaterialData.priceMetro} readOnly />
         </div>
-        
-      </form >
-            <div>
-             <CreateRMDispatch/>
-            </div>
-    </div >
+      </form>
+      <div>
+        <CreateRMDispatch resetInputs={resetInputs} />
+      </div>
+    </div>
   );
 };
 

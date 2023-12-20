@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react'
 import { useDispatch,useSelector } from "react-redux";
-import { createRM } from "../../../features/Promises/rawMaterial/rawMaterialSlice";
-const CreateRMDispatch = () => {
+import { createRM,reset} from "../../../../features/Promises/rawMaterial/rawMaterialSlice";
+const CreateRMDispatch = ({resetInputs}) => {
     const dispatch = useDispatch()
     const {rawMaterial} = useSelector(
         (state) => state.rawMaterial
       );
+const handleClick = (data) =>{
+  dispatch(createRM(data))
+  dispatch(reset())
+  resetInputs()
+}
     useEffect(() => {
        console.log(rawMaterial);
     }, [rawMaterial]);
 
   return (
     <div>
-      <button className='btnCreateRM' onClick={() => dispatch(createRM(rawMaterial))}>Crear</button>
+      <button className='btnCreateRM' onClick={() => handleClick(rawMaterial)}>Crear</button>
     </div>
   )
 }

@@ -36,6 +36,9 @@ const NavBar = () => {
             Buscar
           </span>
           <ul className="dropdown-menu" aria-labelledby="productosDropdown">
+          <li className="nav-item">
+              <Link to="/see/contacts" className="dropdown-item">Contactos</Link>
+            </li>
             <li className="nav-item">
               <Link to="/productos/crear" className="dropdown-item">Pedido</Link>
             </li>
@@ -46,7 +49,7 @@ const NavBar = () => {
               <Link to="/productos/borrar" className="dropdown-item">Materia prima</Link>
             </li>
             <li className="nav-item">
-              <Link to="/productos/buscar" className="dropdown-item">Operación</Link>
+              <Link to="/see/operations" className="dropdown-item">Operación</Link>
             </li>
           </ul>
         </li>

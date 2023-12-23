@@ -1,12 +1,12 @@
 import React from 'react'
-
-import CreateContact from '../CreateComponents/CreateContact/CreateContact'
+import Contacts from '../ToSee/Contacts/Contacts'
 
 const Home = () => {
   return (
     <div>
 
-      <CreateContact />
+    <p>Menudo pateo</p>
+    <Contacts/>
     </div>
   )
 }

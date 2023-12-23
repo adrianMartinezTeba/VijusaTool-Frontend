@@ -3,6 +3,7 @@ import contactService from "./contactService";
 
 const initialState = {
     contacts: [],
+    contactByName:[],
     contact:  null,
     isLoading: false,
     isError: false,
@@ -14,6 +15,7 @@ export const contactSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
+            state.contactByName = [];
             state.isLoading = false;
             state.isError = false;
             state.message = '';
@@ -39,6 +41,13 @@ export const contactSlice = createSlice({
             })
             .addCase(getContacts.fulfilled, (state,action) => {
                 state.contacts = action.payload
+            })
+            .addCase(getContactByName.fulfilled, (state,action) => {
+                console.log(action.payload);
+                state.contactByName = action.payload
+            })
+            .addCase(getContactById.fulfilled, (state,action) => {
+                state.contact = action.payload
             })
     },
 });
@@ -85,7 +94,17 @@ export const getContactById = createAsyncThunk("contact/getContactById ",
     }
 
 );
-
+export const getContactByName = createAsyncThunk("contact/getContactByName ",
+    async (name, thunkAPI) => {
+        
+        try {
+            return await contactService.getContactByName(name);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 export const deleteContact = createAsyncThunk("contact/deleteContact ", async (id, thunkAPI) => {
     try {
         return await contactService.deleteContact(id);

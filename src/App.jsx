@@ -8,6 +8,10 @@ import CreateOperationToFollow from "./components/CreateComponents/CreateOperati
 import NavBar from "./components/NavBar/NavBar";
 import CreateContact from "./components/CreateComponents/CreateContact/CreateContact";
 import RuteToFollow from "./components/CreateComponents/CreateProduct/Sections/RuteToFollow/RuteToFollow";
+import ContactInd from "./components/ToSee/Contacts/ContactInd/ContactInd";
+import Contacts from "./components/ToSee/Contacts/Contacts";
+import Operations from "./components/ToSee/Operations/Operations";
+import OperationInd from "./components/ToSee/Operations/OperationInd/OperationInd";
 
 function App() {
 
@@ -23,6 +27,10 @@ function App() {
             <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
             <Route path="/create/contact" element={<CreateContact />} />
             <Route path="/ruteToFollow" element={<RuteToFollow />} />
+            <Route path="/see/contacts" element={<Contacts />} />
+            <Route path="/see/operations" element={<Operations />} />
+            <Route path="/contactInd/:id" element={<ContactInd />} />
+            <Route path="/operationInd/:id" element={<OperationInd />} />
           </Routes>
         
       </BrowserRouter>

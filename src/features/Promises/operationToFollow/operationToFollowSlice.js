@@ -49,6 +49,11 @@ export const operationToFollowSlice = createSlice({
             .addCase(getOTF.rejected, (state) => {
                 state.isError = true;
             })
+            .addCase(getOTFById.fulfilled, (state, action) => {
+                state.operationToFollow = action.payload
+                state.isSuccess = true
+                state.isLoading = false
+            })
     },
 });
 

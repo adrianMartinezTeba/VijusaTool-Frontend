@@ -11,6 +11,12 @@ const getContactById = async (id) => {
     const res = await axios.get(`${API_URL}/contact/get/${id}`);
     return res.data;
 };
+const getContactByName = async (name) => {
+    console.log(name);
+    const res = await axios.get(`${API_URL}/contact/getByName/${name}`);
+    console.log(res.data);
+    return res.data;
+}
 const createContact = async (contactData) => {
   await contactData
   console.log(contactData);
@@ -37,6 +43,7 @@ contactToCreate,
 deleteContact,
 getContactById,
 getContacts,
+getContactByName,
 updateContact
 };
 

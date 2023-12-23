@@ -12,6 +12,8 @@ import ContactInd from "./components/ToSee/Contacts/ContactInd/ContactInd";
 import Contacts from "./components/ToSee/Contacts/Contacts";
 import Operations from "./components/ToSee/Operations/Operations";
 import OperationInd from "./components/ToSee/Operations/OperationInd/OperationInd";
+import RawMaterials from "./components/ToSee/RawMaterials/RawMaterials";
+import RawMaterialInd from "./components/ToSee/RawMaterials/RawMaterialInd/RawMaterialInd";
 
 function App() {
 
@@ -28,9 +30,11 @@ function App() {
             <Route path="/create/contact" element={<CreateContact />} />
             <Route path="/ruteToFollow" element={<RuteToFollow />} />
             <Route path="/see/contacts" element={<Contacts />} />
-            <Route path="/see/operations" element={<Operations />} />
             <Route path="/contactInd/:id" element={<ContactInd />} />
+            <Route path="/see/operations" element={<Operations />} />
             <Route path="/operationInd/:id" element={<OperationInd />} />
+            <Route path="/see/rawMaterials" element={<RawMaterials/>} />
+            <Route path="/rawMaterialInd/:id" element={<RawMaterialInd />} />
           </Routes>
         
       </BrowserRouter>

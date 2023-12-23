@@ -23,7 +23,6 @@ const OperationInd = () => {
           <h1>{operationToFollow.name}</h1>
           <p className="lead">Codigo de la operación: {operationToFollow.codeOperation}</p>
           <p className="lead">Precio por hora(€): {operationToFollow.priceHourEur}</p>
-          {/* Add other properties as needed */}
         </div>
       ) : null}
     </div>

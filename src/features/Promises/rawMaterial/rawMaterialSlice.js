@@ -19,7 +19,7 @@ export const rawMaterialSlice = createSlice({
             state.isErrorRawMaterial = false;
             state.messageRawMaterial = '';
             state.isSuccessRawMaterial = false;
-            state.rawMaterials = null
+            state.rawMaterials = []
         },
     },
     extraReducers: (builder) => {
@@ -52,6 +52,19 @@ export const rawMaterialSlice = createSlice({
             })
             .addCase(getRM.rejected, (state) => {
                 state.isErrorRawMaterial = true;
+            })
+            .addCase(getRMById.fulfilled, (state, action) => {
+                state.rawMaterial = action.payload
+                state.messageRawMaterial = 'Obtenida información correctamente'
+                state.isSuccessRawMaterial = true
+                state.isLoadingRawMaterial = false
+            })
+            .addCase(searcher.fulfilled, (state, action) => {
+                state.rawMaterials = action.payload
+                state.messageRawMaterial = 'Obtenida información correctamente'
+                state.isSuccessRawMaterial = true
+                state.isLoadingRawMaterial = false
+                
             })
     },
 });
@@ -98,7 +111,16 @@ export const getRMById = createAsyncThunk("rawMaterial/getRMById ",
     }
 
 );
-
+export const searcher = createAsyncThunk("rawMaterial/searcher ",
+    async (data, thunkAPI) => {
+        try {
+            return await rawMaterialService.searcher(data);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(messageRawMaterial);
+        }
+    }
+);
 export const deleteRM = createAsyncThunk("rawMaterial/deleteRM ", async (id, thunkAPI) => {
     try {
         return await rawMaterialService.deleteRM(id);

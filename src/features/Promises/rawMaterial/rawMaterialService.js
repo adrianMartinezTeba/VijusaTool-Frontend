@@ -26,13 +26,17 @@ const updateRM = async (id,updRM) => {
     const res = await axios.put(`${API_URL}/rawMaterial/update/${id}`,updRM);
     return res.data;
 }
-
+const searcher = async (data) => {
+    const res = await axios.get(`${API_URL}/rawMaterial/search`,{ params: data});
+    return res.data;
+}
 const rawMaterialService = {
 createRM,
 RMToCreate,
 deleteRM,
 getRMById,
 getRM,
+searcher,
 updateRM
 };
 

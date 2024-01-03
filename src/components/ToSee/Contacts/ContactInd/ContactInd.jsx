@@ -2,20 +2,16 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getContactById } from '../../../../features/Promises/contact/contactSlice';
-
 const ContactInd = () => {
   const dispatch = useDispatch();
   const { contact } = useSelector((state) => state.contact);
   const { id } = useParams();
-
   useEffect(() => {
     dispatch(getContactById(id));
   }, [id]);
-
   useEffect(() => {
     console.log(contact);
   }, [contact]);
-
   return (
     <div className="container mt-5">
       {contact ? (

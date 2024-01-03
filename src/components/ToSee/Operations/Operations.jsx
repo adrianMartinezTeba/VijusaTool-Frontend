@@ -20,7 +20,6 @@ const Operations = () => {
     const onClick = (id) => {
       navigate(`/operationInd/${id}`);
     };
-  
     return (
         <div className="container mt-5">
           <div>

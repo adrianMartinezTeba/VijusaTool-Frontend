@@ -20,14 +20,14 @@ const SearcherOTF = ({ addToOTFArray }) => {
   return (
     <>
       {operationsTF && operationsTF.length > 0 ? (
-        <div className='table-responsive'>
-          <table className='table table-striped'>
-            <thead>
+        <div className="table-responsive">
+          <table className="table table-striped">
+            <thead className="table-dark">
               <tr>
-                <th scope='col'>Nombre</th>
-                <th scope='col'>Nº operación</th>
-                <th scope='col'>Precio/hora</th>
-                <th scope='col'>Acciones</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Nº operación</th>
+                <th scope="col">Precio/hora</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -37,7 +37,7 @@ const SearcherOTF = ({ addToOTFArray }) => {
                   <td>{operation.codeOperation}</td>
                   <td>{operation.priceHourEur}</td>
                   <td>
-                   <AddOnSearcherOTF addToOTFArray={addToOTFArray} OTFData={operation}/>
+                    <AddOnSearcherOTF addToOTFArray={addToOTFArray} OTFData={operation} />
                   </td>
                 </tr>
               ))}

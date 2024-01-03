@@ -6,6 +6,7 @@ import { priceOnThisRawMaterial, priceCut } from '../../../../../features/NoProm
 import { useDispatch, useSelector } from 'react-redux';
 import { reset, addToCreateProductState } from '../../../../../features/Promises/product/productSlice.js';
 import DeleteRaw from './Buttons/DeleteRaw/DeleteRaw.jsx';
+
 const RawMaterialsSection = () => {
   const dispatch = useDispatch();
   const { isSuccess } = useSelector((state) => state.product);
@@ -15,6 +16,7 @@ const RawMaterialsSection = () => {
     cerrar: true,
   });
   const [rawMaterialsArray, setRawMaterialsArray] = useState([]);
+  
   const handleBtnState = (action) => {
     setButtonsState({
       buscar: action === 'buscar',
@@ -22,10 +24,12 @@ const RawMaterialsSection = () => {
       cerrar: action === 'cerrar',
     });
   };
+  
   const addToRawMaterialsArray = (data) => {
     const addingData = { ...data, rawMaterialId: data._id, precioDelCorte: '', cantidadDeCortes: '', precioTotalSobreEsaMateriaPrima: '', tamañoDelCorte: '' }
     setRawMaterialsArray([...rawMaterialsArray, addingData])
   }
+  
   const deleteRawMaterialFromArray = (data) => {
     const newArray = [...rawMaterialsArray];
     newArray.splice(data, 1);
@@ -63,19 +67,22 @@ const RawMaterialsSection = () => {
     setRawMaterialsArray(newArray);
     dispatch(addToCreateProductState({ functionName: 'addRawMaterials', data: newArray }));
   };
+  
   useEffect(() => {
-   setRawMaterialsArray([])
+    setRawMaterialsArray([])
   }, [isSuccess]);
+  
   useEffect(() => {
     console.log(rawMaterialsArray);
   }, [rawMaterialsArray])
+
   return (
     <div className="container mt-4">
       <h3>Materias primas</h3>
       {rawMaterialsArray.length > 0 ? (
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
-            <thead>
+            <thead className="table-dark">
               <tr>
                 <th scope="col">Forma</th>
                 <th scope="col">Material</th>
@@ -174,4 +181,5 @@ const RawMaterialsSection = () => {
     </div>
   );
 };
+
 export default RawMaterialsSection;

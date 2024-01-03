@@ -13,7 +13,7 @@ const RawMaterials = () => {
 
   useEffect(() => {
     dispatch(getRM());
-  }, [dispatch]);
+  }, []);
 
   // Verifica si rawMaterials tiene un valor antes de usar slice
   const currentRM = rawMaterials ? rawMaterials.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) : [];
@@ -37,6 +37,7 @@ const RawMaterials = () => {
             <th scope="col">D.Externo</th>
             <th scope="col">D.Interno</th>
             <th scope="col">Precio por 1kg(€)</th>
+            <th scope="col">Peso por 1 metro(gramos)</th>
             <th scope="col">Precio por 1 metro(€)</th>
             {/* <th scope="col">Stock</th> */}
           </tr>

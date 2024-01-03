@@ -1,69 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { reset, getLastProduct } from '../../../../../features/Promises/product/productSlice';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importa el archivo CSS de Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { createRTF } from '../../../../../features/Promises/ruteToFollow/ruteToFollowSlice';
+
 const RuteToFollow = () => {
   const dispatch = useDispatch();
-  const [loadingLastProduct, setLoadingLastProduct] = useState(true);
   const { isSuccess, product } = useSelector((state) => state.product);
+  const [loadingLastProduct, setLoadingLastProduct] = useState(true);
   const [RTFToDo, setRTFToDo] = useState({
-    rawMaterials: [
-      {
-        productId: '',
-        contactId: '',
-        modelName: '',
-        rawMaterialId: '',
-        cantidadDeCortes: '',
-        rawMaterialMaterial: '',
-        rawMaterialShape: '',
-        rawMaterialExtDiameter: '',
-        rawMaterialIntDiameter: '',
-        operationsToFollow: [
-          {
-            operationId: '',
-            notes: '',
-          },
-        ],
-      },
-    ],
+    rawMaterials: [],
     operationsToFollow: [],
-    state: [
-      {
-        toDo: true,
-        doing: false,
-        done: false,
-      },
-    ],
+    state: [{ toDo: true, doing: false, done: false }],
   });
+  const [selectedRawMaterialIndex, setSelectedRawMaterialIndex] = useState(null);
+
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getLastProduct());
+    const fetchData = async () => {
+      await dispatch(getLastProduct());
       setLoadingLastProduct(false);
-    }, 1000);
-  }, []);
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
     if (product) {
+      const updatedRawMaterials = product.rawMaterials.map((rawMaterial) => ({
+        productId: product._id,
+        modelName: product.modelName,
+        contactId: product.contactId._id,
+        contactName: product.contactId.name,
+        rawMaterialId: rawMaterial.rawMaterialId._id,
+        cantidadDeCortes: rawMaterial.cantidadDeCortes,
+        rawMaterialMaterial: rawMaterial.rawMaterialId.material,
+        rawMaterialShape: rawMaterial.rawMaterialId.shape,
+        rawMaterialExtDiameter: rawMaterial.rawMaterialId.externalDiameter,
+        rawMaterialIntDiameter: rawMaterial.rawMaterialId.internalDiameter,
+        operationsToFollow: [],
+      }));
+
+      const updatedOperationsToFollow = product.operationsToFollow.map((operation) => ({
+        operationId: operation.operationId._id,
+        codeOperation: operation.operationId.codeOperation,
+        operationName: operation.operationId.name,
+      }));
+
       setRTFToDo({
-        rawMaterials: product.rawMaterials.map((rawMaterial) => ({
-          productId: product._id,
-          modelName: product.modelName,
-          contactId: product.contactId._id,
-          contactName: product.contactId.name,
-          rawMaterialId: rawMaterial.rawMaterialId._id,
-          cantidadDeCortes: rawMaterial.cantidadDeCortes,
-          rawMaterialMaterial: rawMaterial.rawMaterialId.material,
-          rawMaterialShape: rawMaterial.rawMaterialId.shape,
-          rawMaterialExtDiameter: rawMaterial.rawMaterialId.externalDiameter,
-          rawMaterialIntDiameter: rawMaterial.rawMaterialId.internalDiameter,
-          operationsToFollow: [],
-        })),
-        operationsToFollow: product.operationsToFollow.map((operation) => ({
-          operationId: operation.operationId._id,
-          codeOperation: operation.operationId.codeOperation,
-          operationName: operation.operationId.name,
-        })),
+        rawMaterials: updatedRawMaterials,
+        operationsToFollow: updatedOperationsToFollow,
         state: [
           {
             toDo: true,
@@ -74,7 +59,7 @@ const RuteToFollow = () => {
       });
     }
   }, [product]);
-  const [selectedRawMaterialIndex, setSelectedRawMaterialIndex] = useState(null);
+
   const onClickAddRmOTF = (indexRM, operation) => {
     const updatedRawMaterials = [...RTFToDo.rawMaterials];
     const selectedRawMaterial = updatedRawMaterials[indexRM];
@@ -95,17 +80,19 @@ const RuteToFollow = () => {
 
     setRTFToDo(updatedRTFToDo);
   };
+
   const handleNotesChange = (event, indexRM, indexOperation) => {
     const updatedRawMaterials = [...RTFToDo.rawMaterials];
     const selectedRawMaterial = updatedRawMaterials[indexRM];
 
-    const updatedOperationsToFollow = selectedRawMaterial.operationsToFollow.map((operation, operationIndex) => {
-      if (operationIndex === indexOperation) {
-        // Actualiza solo la nota de la operación específica
-        return { ...operation, notes: event.target.value };
+    const updatedOperationsToFollow = selectedRawMaterial.operationsToFollow.map(
+      (operation, operationIndex) => {
+        if (operationIndex === indexOperation) {
+          return { ...operation, notes: event.target.value };
+        }
+        return operation;
       }
-      return operation;
-    });
+    );
 
     updatedRawMaterials[indexRM] = {
       ...selectedRawMaterial,
@@ -119,40 +106,36 @@ const RuteToFollow = () => {
 
     setRTFToDo(updatedRTFToDo);
   };
-const handleSubmit = (data) => {
-  const ItemToSend = {
-    rawMaterials: RTFToDo.rawMaterials.map((rawMaterial) => ({
-      productId: rawMaterial.productId,
-      contactId: rawMaterial.contactId,
-      rawMaterialId: rawMaterial.rawMaterialId,
-      cantidadDeCortes: rawMaterial.cantidadDeCortes,
-      operationsToFollow: rawMaterial.operationsToFollow.map((operation) => ({
-        operationId: operation.operationId,
-        notes: operation.notes,
-      })),
-    })),
-  }
-  console.log(ItemToSend);
-  setRTFToDo({
-    rawMaterials: [],
-    operationsToFollow: [],
-    state: [
-      {
-        toDo: true,
-        doing: false,
-        done: false,
-      },
-    ],
-  })
-  dispatch(createRTF(ItemToSend));
-}
 
-  useEffect(() => {
-    console.log(selectedRawMaterialIndex);
-  }, [selectedRawMaterialIndex]);
-  useEffect(() => {
-    console.log(RTFToDo);
-  }, [RTFToDo]);
+  const handleSubmit = () => {
+    const ItemToSend = {
+      rawMaterials: RTFToDo.rawMaterials.map((rawMaterial) => ({
+        productId: rawMaterial.productId,
+        contactId: rawMaterial.contactId,
+        rawMaterialId: rawMaterial.rawMaterialId,
+        cantidadDeCortes: rawMaterial.cantidadDeCortes,
+        operationsToFollow: rawMaterial.operationsToFollow.map((operation) => ({
+          operationId: operation.operationId,
+          notes: operation.notes,
+        })),
+      })),
+    };
+
+    console.log(ItemToSend);
+    setRTFToDo({
+      rawMaterials: [],
+      operationsToFollow: [],
+      state: [
+        {
+          toDo: true,
+          doing: false,
+          done: false,
+        },
+      ],
+    });
+
+    dispatch(createRTF(ItemToSend));
+  };
 
   return (
     <div className="container mt-5">
@@ -177,21 +160,22 @@ const handleSubmit = (data) => {
                     <div className="card">
                       <div className="card-body">
                         <h5 className="card-title">Operaciones:</h5>
-                        {rawMaterial.operationsToFollow && rawMaterial.operationsToFollow.map((operation,operationIndex) => (
-                          <div className="card mb-2" key={operation.operationId}>
-                            <div className="card-body">
-                              <p className="card-text">ID: {operation.operationId}</p>
-                              <p className="card-text">Nº Op: {operation.codeOperation}</p>
-                              <p className="card-text">Nombre Op: {operation.operationName}</p>
-                              <input
-                                type="text"
-                                className="form-control"
-                                value={operation.notes}
-                                onChange={(event) => handleNotesChange(event, index, operationIndex)}
-                              />
+                        {rawMaterial.operationsToFollow &&
+                          rawMaterial.operationsToFollow.map((operation, operationIndex) => (
+                            <div className="card mb-2" key={operation.operationId}>
+                              <div className="card-body">
+                                <p className="card-text">ID: {operation.operationId}</p>
+                                <p className="card-text">Nº Op: {operation.codeOperation}</p>
+                                <p className="card-text">Nombre Op: {operation.operationName}</p>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  value={operation.notes}
+                                  onChange={(event) => handleNotesChange(event, index, operationIndex)}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     </div>
                     <button
@@ -225,7 +209,9 @@ const handleSubmit = (data) => {
           </div>
         </div>
       )}
-      <button className="btn btn-primary mt-3" onClick={() => handleSubmit()}>Crear ruta/s</button>
+      <button className="btn btn-primary mt-3" onClick={handleSubmit}>
+        Crear ruta/s
+      </button>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const CreateRawMaterial = () => {
     material: '',
     shape: '',
     priceKg: '',
-    priceMetro: '',
+    priceMeter: '',
     wheightMeter: '',
     externalDiameter: '',
     internalDiameter: ''
@@ -20,7 +20,7 @@ const resetInputs = () =>{
     material: '',
     shape: '',
     priceKg: '',
-    priceMetro: '',
+    priceMeter: '',
     wheightMeter: '',
     externalDiameter: '',
     internalDiameter: ''
@@ -31,33 +31,33 @@ const resetInputs = () =>{
     if (name === 'priceKg') {
       const priceKg = value;
       if (!isNaN(priceKg)) {
-        const priceMetro = calculatePriceMetro(priceKg, rawMaterialData.wheightMeter);
+        const priceMeter = calculatePriceMetro(priceKg, rawMaterialData.wheightMeter);
         setRawMaterialData((prevData) => ({
           ...prevData,
           priceKg,
-          priceMetro,
+          priceMeter,
         }));
       } else {
         setRawMaterialData((prevData) => ({
           ...prevData,
           priceKg,
-          priceMetro: 'Se necesitan más datos',
+          priceMeter: 'Se necesitan más datos',
         }));
       }
     } else if (name === 'wheightMeter') {
       const wheightMeter = value;
       if (!isNaN(wheightMeter)) {
-        const priceMetro = calculatePriceMetro(rawMaterialData.priceKg, wheightMeter);
+        const priceMeter = calculatePriceMetro(rawMaterialData.priceKg, wheightMeter);
         setRawMaterialData((prevData) => ({
           ...prevData,
           wheightMeter,
-          priceMetro,
+          priceMeter,
         }));
       } else {
         setRawMaterialData((prevData) => ({
           ...prevData,
           wheightMeter,
-          priceMetro: '',
+          priceMeter: '',
         }));
       }
     } else {
@@ -110,7 +110,7 @@ const resetInputs = () =>{
         </div>
         <div>
           <label>Precio por Metro:</label>
-          <input type="text" name="priceMetro" value={rawMaterialData.priceMetro} readOnly />
+          <input type="text" name="priceMeter" value={rawMaterialData.priceMeter} readOnly />
         </div>
       </form>
       <div>

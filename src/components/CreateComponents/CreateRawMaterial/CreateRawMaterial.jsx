@@ -71,46 +71,46 @@ const resetInputs = () =>{
     dispatch(RMToCreate(rawMaterialData));
   }, [rawMaterialData]);
   return (
-    <div>
+    <div className="create-rm container">
       <h2>Crear Materia prima</h2>
       <form>
-        <div>
-          <label id='rmShape'>Forma:</label>
-          <input list="shapeOptions" name="shape" value={rawMaterialData.shape} onChange={handleInputChange} placeholder="Ingresar o seleccionar forma" />
+        <div className="mb-3">
+          <label id='rmShape' className="form-label">Forma:</label>
+          <input list="shapeOptions"  className="form-control" name="shape" value={rawMaterialData.shape} onChange={handleInputChange} placeholder="Ingresar o seleccionar forma" />
           <datalist id="shapeOptions">
             <option value="Tubo" />
             <option value="Pletina" />
             <option value="Barra" />
           </datalist>
         </div>
-        <div>
-          <label id='rmMaterial'>Tipo de Material:</label>
-          <input list="materialOptions" name="material" value={rawMaterialData.material} onChange={handleInputChange} placeholder="Ingresar o seleccionar tipo de material" />
+        <div className="mb-3">
+          <label className="form-label" id='rmMaterial'>Tipo de Material:</label>
+          <input  className="form-control" list="materialOptions" name="material" value={rawMaterialData.material} onChange={handleInputChange} placeholder="Ingresar o seleccionar tipo de material" />
           <datalist id="materialOptions">
             <option value="Latón" />
             <option value="Cobre" />
             <option value="Hierro" />
           </datalist>
         </div>
-        <div>
-          <label>Diámetro Externo (mm+):</label>
-          <input type="text" name="externalDiameter" value={rawMaterialData.externalDiameter} onChange={handleInputChange} />
+        <div className="mb-3">
+          <label className="form-label">Diámetro Externo (mm+):</label>
+          <input  className="form-control" type="text" name="externalDiameter" value={rawMaterialData.externalDiameter} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>Diámetro Interno (mm):</label>
-          <input type="text" name="internalDiameter" value={rawMaterialData.internalDiameter} onChange={handleInputChange} />
+        <div className="mb-3">
+          <label className="form-label">Diámetro Interno (mm):</label>
+          <input  className="form-control" type="text" name="internalDiameter" value={rawMaterialData.internalDiameter} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>Precio por Kg:</label>
-          <input type="number" step={"0.0001"} name="priceKg" value={rawMaterialData.priceKg} onChange={handleInputChange} />
+        <div className="mb-3">
+          <label  className="form-label">Precio por Kg:</label>
+          <input  className="form-control" type="number" step={"0.0001"} name="priceKg" value={rawMaterialData.priceKg} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>Peso por metro (gramos):</label>
-          <input type="number" step={"0.0001"} name="wheightMeter" value={rawMaterialData.wheightMeter} onChange={handleInputChange} />
+        <div className="mb-3">
+          <label className="form-label">Peso por metro (gramos):</label>
+          <input  className="form-control" type="number" step={"0.0001"} name="wheightMeter" value={rawMaterialData.wheightMeter} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>Precio por Metro:</label>
-          <input type="text" name="priceMeter" value={rawMaterialData.priceMeter} readOnly />
+        <div className="mb-3">
+          <label className="form-label">Precio por Metro:</label>
+          <input  className="form-control" type="text" name="priceMeter" value={rawMaterialData.priceMeter} readOnly />
         </div>
       </form>
       <div>

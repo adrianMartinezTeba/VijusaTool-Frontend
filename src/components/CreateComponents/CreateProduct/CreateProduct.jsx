@@ -9,7 +9,7 @@ import { addToCreateProductState, create, reset } from '../../../features/Promis
 const CreateProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { createProductState } = useSelector((state) => state.product);
+  const { createProductState,isSuccess } = useSelector((state) => state.product);
   const [productComponente, setProductComponent] = useState({
     modelName: '',
     rawMaterials: [],
@@ -84,27 +84,27 @@ const CreateProduct = () => {
     navigate('/ruteToFollow');
   }
   return (
-    <>
+    <div className="create-product container">
       <h2>Crear Producto</h2>
       <div className='modelName'>
         <ModelNameSection />
       </div>
-      <div className="customerData">
+      <div className="mb-3">
         <ContactSection />
       </div>
-      <div>
+      <div className="mb-3">
         <RawMaterialsSection />
       </div>
-      <div>
+      <div className="mb-3">
         <OperationsSection />
       </div>
-      <div>
+      <div className="mb-3">
         <p>
           Total del producto: {productComponente.totalPrice}
         </p>
       </div>
-      <button onClick={() => handleCreate(productComponente)}>Crear</button>
-    </>
+      <button className="btn btn-primary" onClick={() => handleCreate(productComponente)}>Crear</button>
+    </div>
   );
 }
 

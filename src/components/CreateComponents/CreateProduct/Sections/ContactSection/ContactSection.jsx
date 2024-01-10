@@ -38,7 +38,7 @@ const ContactSection = () => {
 
   return (
     <div className="container">
-      <p>Cliente: {contactToView.name}</p>
+      <h2 >Cliente: {contactToView.name}</h2>
       {buttonsStateContactSection.buscar ? (
         <div>
           <SearcherContactSection handleAddCustToView={handleAddCustToView} />
@@ -49,19 +49,19 @@ const ContactSection = () => {
       ) : buttonsStateContactSection.crear ? (
         <div>
           <CreateContact />
-          <button className="btn btn-secondary" onClick={() => handleBtnStateContactSection('cerrar')}>
+          <button className="btn btn-secondary me-2" onClick={() => handleBtnStateContactSection('cerrar')}>
             Cerrar
           </button>
         </div>
       ) : buttonsStateContactSection.cerrar ? (
-        <div>
-          <button className="btn btn-primary" onClick={() => handleBtnStateContactSection('buscar')}>
+        <>
+          <button className="btn btn-primary  me-2" onClick={() => handleBtnStateContactSection('buscar')}>
             Buscar
           </button>
-          <button className="btn btn-success" onClick={() => handleBtnStateContactSection('crear')}>
+          <button className="btn btn-success  me-2" onClick={() => handleBtnStateContactSection('crear')}>
             Crear
           </button>
-        </div>
+        </>
       ) : null}
     </div>
   );

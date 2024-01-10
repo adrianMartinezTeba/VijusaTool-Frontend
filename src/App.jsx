@@ -7,13 +7,13 @@ import CreateRawMaterial from "./components/CreateComponents/CreateRawMaterial/C
 import CreateOperationToFollow from "./components/CreateComponents/CreateOperationToFollow/CreateOperationToFollow";
 import NavBar from "./components/NavBar/NavBar";
 import CreateContact from "./components/CreateComponents/CreateContact/CreateContact";
-import RuteToFollow from "./components/CreateComponents/CreateProduct/Sections/RuteToFollow/RuteToFollow";
 import ContactInd from "./components/ToSee/Contacts/ContactInd/ContactInd";
 import Contacts from "./components/ToSee/Contacts/Contacts";
 import Operations from "./components/ToSee/Operations/Operations";
 import OperationInd from "./components/ToSee/Operations/OperationInd/OperationInd";
 import RawMaterials from "./components/ToSee/RawMaterials/RawMaterials";
 import RawMaterialInd from "./components/ToSee/RawMaterials/RawMaterialInd/RawMaterialInd";
+import CreateRuteToFollow from "./components/CreateComponents/CreateRuteToFollow/CreateRuteToFollow";
 
 function App() {
 
@@ -28,7 +28,7 @@ function App() {
             <Route path="/create/rawMaterial" element={<CreateRawMaterial />} />
             <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
             <Route path="/create/contact" element={<CreateContact />} />
-            <Route path="/ruteToFollow" element={<RuteToFollow />} />
+            <Route path="/create/ruteToFollow" element={<CreateRuteToFollow />} />
             <Route path="/see/contacts" element={<Contacts />} />
             <Route path="/contactInd/:id" element={<ContactInd />} />
             <Route path="/see/operations" element={<Operations />} />

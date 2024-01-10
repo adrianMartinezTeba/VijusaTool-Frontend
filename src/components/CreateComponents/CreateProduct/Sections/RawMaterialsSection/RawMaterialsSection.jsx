@@ -43,10 +43,10 @@ const RawMaterialsSection = () => {
       newArray[index] = {
         ...newArray[index],
         tamañoDelCorte: value,
-        precioDelCorte: priceCut(value, newArray[index].priceMetro),
+        precioDelCorte: priceCut(value, newArray[index].priceMeter),
         precioTotalSobreEsaMateriaPrima: priceOnThisRawMaterial(
           newArray[index].cantidadDeCortes,
-          priceCut(value, newArray[index].priceMetro)
+          priceCut(value, newArray[index].priceMeter)
         ),
       };
     } else if (name === 'cantidadDeCortes') {
@@ -82,7 +82,7 @@ const RawMaterialsSection = () => {
       {rawMaterialsArray.length > 0 ? (
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
-            <thead className="table-dark">
+            <thead>
               <tr>
                 <th scope="col">Forma</th>
                 <th scope="col">Material</th>
@@ -107,7 +107,7 @@ const RawMaterialsSection = () => {
                   <td>{item.internalDiameter}</td>
                   <td>{item.priceKg}</td>
                   <td>{item.wheightMeter}</td>
-                  <td>{item.priceMetro}</td>
+                  <td>{item.priceMeter}</td>
                   <td>
                     <input
                       type="number"

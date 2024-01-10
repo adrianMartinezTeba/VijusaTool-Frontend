@@ -24,7 +24,7 @@ const SearcherRMS = ({ addToRawMaterialsArray }) => {
         <p>Cargando...</p> // Muestra un spinner de carga mientras se cargan las materias primas
       ) : (
         <table className='table table-striped'>
-          <thead>
+          <thead className="table-dark">
             <tr>
               <th scope='col'>Tipo</th>
               <th scope='col'>Nombre</th>
@@ -46,7 +46,7 @@ const SearcherRMS = ({ addToRawMaterialsArray }) => {
                   <td>{material.internalDiameter}</td>
                   <td>{material.priceKg}</td>
                   <td>{material.wheightMeter}</td>
-                  <td>{material.priceMetro}</td>
+                  <td>{material.priceMeter}</td>
                   <td>
                     <AddOnSearcherRMS RMData={material} addToRawMaterialsArray={addToRawMaterialsArray} />
                   </td>

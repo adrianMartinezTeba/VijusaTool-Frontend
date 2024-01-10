@@ -17,7 +17,7 @@ const handleClick = (data) =>{
 
   return (
     <div>
-      <button className='btnCreateRM' onClick={() => handleClick(rawMaterial)}>Crear</button>
+      <button  className="btn btn-primary" onClick={() => handleClick(rawMaterial)}>Crear</button>
     </div>
   )
 }

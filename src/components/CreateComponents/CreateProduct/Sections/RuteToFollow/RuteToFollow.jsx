@@ -1,219 +1,219 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { reset, getLastProduct } from '../../../../../features/Promises/product/productSlice';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { createRTF } from '../../../../../features/Promises/ruteToFollow/ruteToFollowSlice';
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { reset, getLastProduct } from '../../../../../features/Promises/product/productSlice';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { createRTF } from '../../../../../features/Promises/ruteToFollow/ruteToFollowSlice';
 
-const RuteToFollow = () => {
-  const dispatch = useDispatch();
-  const { isSuccess, product } = useSelector((state) => state.product);
-  const [loadingLastProduct, setLoadingLastProduct] = useState(true);
-  const [RTFToDo, setRTFToDo] = useState({
-    rawMaterials: [],
-    operationsToFollow: [],
-    state: [{ toDo: true, doing: false, done: false }],
-  });
-  const [selectedRawMaterialIndex, setSelectedRawMaterialIndex] = useState(null);
+// const RuteToFollow = () => {
+//   const dispatch = useDispatch();
+//   const { isSuccess, product } = useSelector((state) => state.product);
+//   const [loadingLastProduct, setLoadingLastProduct] = useState(true);
+//   const [RTFToDo, setRTFToDo] = useState({
+//     rawMaterials: [],
+//     operationsToFollow: [],
+//     state: [{ toDo: true, doing: false, done: false }],
+//   });
+//   const [selectedRawMaterialIndex, setSelectedRawMaterialIndex] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getLastProduct());
-      setLoadingLastProduct(false);
-    };
+//   useEffect(() => {
+//     dispatch(getLastProduct());
+//     setTimeout(() => {
 
-    fetchData();
-  }, [dispatch]);
+//       setLoadingLastProduct(false);
+//     }, 5000);
 
-  useEffect(() => {
-    if (product) {
-      const updatedRawMaterials = product.rawMaterials.map((rawMaterial) => ({
-        productId: product._id,
-        modelName: product.modelName,
-        contactId: product.contactId._id,
-        contactName: product.contactId.name,
-        rawMaterialId: rawMaterial.rawMaterialId._id,
-        cantidadDeCortes: rawMaterial.cantidadDeCortes,
-        rawMaterialMaterial: rawMaterial.rawMaterialId.material,
-        rawMaterialShape: rawMaterial.rawMaterialId.shape,
-        rawMaterialExtDiameter: rawMaterial.rawMaterialId.externalDiameter,
-        rawMaterialIntDiameter: rawMaterial.rawMaterialId.internalDiameter,
-        operationsToFollow: [],
-      }));
+//   }, []);
 
-      const updatedOperationsToFollow = product.operationsToFollow.map((operation) => ({
-        operationId: operation.operationId._id,
-        codeOperation: operation.operationId.codeOperation,
-        operationName: operation.operationId.name,
-      }));
+//   useEffect(() => {
+//     if (product) {
+//       const updatedRawMaterials = product.rawMaterials.map((rawMaterial) => ({
+//         productId: product._id,
+//         modelName: product.modelName,
+//         contactId: product.contactId._id,
+//         contactName: product.contactId.name,
+//         rawMaterialId: rawMaterial.rawMaterialId._id,
+//         cantidadDeCortes: rawMaterial.cantidadDeCortes,
+//         rawMaterialMaterial: rawMaterial.rawMaterialId.material,
+//         rawMaterialShape: rawMaterial.rawMaterialId.shape,
+//         rawMaterialExtDiameter: rawMaterial.rawMaterialId.externalDiameter,
+//         rawMaterialIntDiameter: rawMaterial.rawMaterialId.internalDiameter,
+//         operationsToFollow: [],
+//       }));
 
-      setRTFToDo({
-        rawMaterials: updatedRawMaterials,
-        operationsToFollow: updatedOperationsToFollow,
-        state: [
-          {
-            toDo: true,
-            doing: false,
-            done: false,
-          },
-        ],
-      });
-    }
-  }, [product]);
+//       const updatedOperationsToFollow = product.operationsToFollow.map((operation) => ({
+//         operationId: operation.operationId._id,
+//         codeOperation: operation.operationId.codeOperation,
+//         operationName: operation.operationId.name,
+//       }));
 
-  const onClickAddRmOTF = (indexRM, operation) => {
-    const updatedRawMaterials = [...RTFToDo.rawMaterials];
-    const selectedRawMaterial = updatedRawMaterials[indexRM];
-    const updatedOperationsToFollow = [
-      ...selectedRawMaterial.operationsToFollow,
-      operation,
-    ];
+//       setRTFToDo({
+//         rawMaterials: updatedRawMaterials,
+//         operationsToFollow: updatedOperationsToFollow,
+//         state: [
+//           {
+//             toDo: true,
+//             doing: false,
+//             done: false,
+//           },
+//         ],
+//       });
+//     }
+//   }, [product]);
 
-    updatedRawMaterials[selectedRawMaterialIndex] = {
-      ...selectedRawMaterial,
-      operationsToFollow: updatedOperationsToFollow,
-    };
+//   const onClickAddRmOTF = (indexRM, operation) => {
+//     const updatedRawMaterials = [...RTFToDo.rawMaterials];
+//     const selectedRawMaterial = updatedRawMaterials[indexRM];
+//     const updatedOperationsToFollow = [
+//       ...selectedRawMaterial.operationsToFollow,
+//       operation,
+//     ];
 
-    const updatedRTFToDo = {
-      ...RTFToDo,
-      rawMaterials: updatedRawMaterials,
-    };
+//     updatedRawMaterials[selectedRawMaterialIndex] = {
+//       ...selectedRawMaterial,
+//       operationsToFollow: updatedOperationsToFollow,
+//     };
 
-    setRTFToDo(updatedRTFToDo);
-  };
+//     const updatedRTFToDo = {
+//       ...RTFToDo,
+//       rawMaterials: updatedRawMaterials,
+//     };
 
-  const handleNotesChange = (event, indexRM, indexOperation) => {
-    const updatedRawMaterials = [...RTFToDo.rawMaterials];
-    const selectedRawMaterial = updatedRawMaterials[indexRM];
+//     setRTFToDo(updatedRTFToDo);
+//   };
 
-    const updatedOperationsToFollow = selectedRawMaterial.operationsToFollow.map(
-      (operation, operationIndex) => {
-        if (operationIndex === indexOperation) {
-          return { ...operation, notes: event.target.value };
-        }
-        return operation;
-      }
-    );
+//   const handleNotesChange = (event, indexRM, indexOperation) => {
+//     const updatedRawMaterials = [...RTFToDo.rawMaterials];
+//     const selectedRawMaterial = updatedRawMaterials[indexRM];
 
-    updatedRawMaterials[indexRM] = {
-      ...selectedRawMaterial,
-      operationsToFollow: updatedOperationsToFollow,
-    };
+//     const updatedOperationsToFollow = selectedRawMaterial.operationsToFollow.map(
+//       (operation, operationIndex) => {
+//         if (operationIndex === indexOperation) {
+//           return { ...operation, notes: event.target.value };
+//         }
+//         return operation;
+//       }
+//     );
 
-    const updatedRTFToDo = {
-      ...RTFToDo,
-      rawMaterials: updatedRawMaterials,
-    };
+//     updatedRawMaterials[indexRM] = {
+//       ...selectedRawMaterial,
+//       operationsToFollow: updatedOperationsToFollow,
+//     };
 
-    setRTFToDo(updatedRTFToDo);
-  };
+//     const updatedRTFToDo = {
+//       ...RTFToDo,
+//       rawMaterials: updatedRawMaterials,
+//     };
 
-  const handleSubmit = () => {
-    const ItemToSend = {
-      rawMaterials: RTFToDo.rawMaterials.map((rawMaterial) => ({
-        productId: rawMaterial.productId,
-        contactId: rawMaterial.contactId,
-        rawMaterialId: rawMaterial.rawMaterialId,
-        cantidadDeCortes: rawMaterial.cantidadDeCortes,
-        operationsToFollow: rawMaterial.operationsToFollow.map((operation) => ({
-          operationId: operation.operationId,
-          notes: operation.notes,
-        })),
-      })),
-    };
+//     setRTFToDo(updatedRTFToDo);
+//   };
 
-    console.log(ItemToSend);
-    setRTFToDo({
-      rawMaterials: [],
-      operationsToFollow: [],
-      state: [
-        {
-          toDo: true,
-          doing: false,
-          done: false,
-        },
-      ],
-    });
+//   const handleSubmit = () => {
+//     const ItemToSend = {
+//       rawMaterials: RTFToDo.rawMaterials.map((rawMaterial) => ({
+//         productId: rawMaterial.productId,
+//         contactId: rawMaterial.contactId,
+//         rawMaterialId: rawMaterial.rawMaterialId,
+//         cantidadDeCortes: rawMaterial.cantidadDeCortes,
+//         operationsToFollow: rawMaterial.operationsToFollow.map((operation) => ({
+//           operationId: operation.operationId,
+//           notes: operation.notes,
+//         })),
+//       })),
+//     };
 
-    dispatch(createRTF(ItemToSend));
-  };
+//     console.log(ItemToSend);
+//     setRTFToDo({
+//       rawMaterials: [],
+//       operationsToFollow: [],
+//       state: [
+//         {
+//           toDo: true,
+//           doing: false,
+//           done: false,
+//         },
+//       ],
+//     });
 
-  return (
-    <div className="container mt-5">
-      {loadingLastProduct ? (
-        <div>
-          <h1>Cargando último pedido creado</h1>
-        </div>
-      ) : (
-        <div>
-          <div>
-            <h2>Materias primas:</h2>
-            {RTFToDo.rawMaterials &&
-              RTFToDo.rawMaterials.map((rawMaterial, index) => (
-                <div className="card mb-3" key={rawMaterial.rawMaterialId}>
-                  <div className="card-body">
-                    <h5 className="card-title">Modelo: {rawMaterial.modelName}</h5>
-                    <p className="card-text">Cliente: {rawMaterial.contactName}</p>
-                    <p className="card-text">N. cortes: {rawMaterial.cantidadDeCortes}</p>
-                    <p className="card-text">
-                      Pieza: {`${rawMaterial.rawMaterialShape} de ${rawMaterial.rawMaterialMaterial}, diámetro externo ${rawMaterial.rawMaterialExtDiameter}, diámetro interno ${rawMaterial.rawMaterialIntDiameter}`}
-                    </p>
-                    <div className="card">
-                      <div className="card-body">
-                        <h5 className="card-title">Operaciones:</h5>
-                        {rawMaterial.operationsToFollow &&
-                          rawMaterial.operationsToFollow.map((operation, operationIndex) => (
-                            <div className="card mb-2" key={operation.operationId}>
-                              <div className="card-body">
-                                <p className="card-text">ID: {operation.operationId}</p>
-                                <p className="card-text">Nº Op: {operation.codeOperation}</p>
-                                <p className="card-text">Nombre Op: {operation.operationName}</p>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={operation.notes}
-                                  onChange={(event) => handleNotesChange(event, index, operationIndex)}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-primary mt-3"
-                      onClick={() => setSelectedRawMaterialIndex(index)}
-                    >
-                      Seleccionar materia prima
-                    </button>
-                  </div>
-                </div>
-              ))}
-          </div>
-          <div className="mt-4">
-            <h2>Operaciones:</h2>
-            {RTFToDo.operationsToFollow &&
-              RTFToDo.operationsToFollow.map((operation) => (
-                <div className="card mb-3" key={operation.operationId}>
-                  <div className="card-body">
-                    <p className="card-text">ID: {operation.operationId}</p>
-                    <p className="card-text">Nº Op: {operation.codeOperation}</p>
-                    <p className="card-text">Nombre Op: {operation.operationName}</p>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => onClickAddRmOTF(selectedRawMaterialIndex, operation)}
-                    >
-                      Añadir a rawMaterial.operationsToFollow
-                    </button>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
-      <button className="btn btn-primary mt-3" onClick={handleSubmit}>
-        Crear ruta/s
-      </button>
-    </div>
-  );
-};
+//     dispatch(createRTF(ItemToSend));
+//   };
 
-export default RuteToFollow;
+//   return (
+//     <div className="container mt-5">
+//       {loadingLastProduct ? (
+//         <div>
+//           <h1>Cargando último pedido creado</h1>
+//         </div>
+//       ) : (
+//         <div>
+//           <div>
+//             <h2>Materias primas:</h2>
+//             {RTFToDo.rawMaterials &&
+//               RTFToDo.rawMaterials.map((rawMaterial, index) => (
+//                 <div className="card mb-3" key={rawMaterial.rawMaterialId}>
+//                   <div className="card-body">
+//                     <h5 className="card-title">Modelo: {rawMaterial.modelName}</h5>
+//                     <p className="card-text">Cliente: {rawMaterial.contactName}</p>
+//                     <p className="card-text">N. cortes: {rawMaterial.cantidadDeCortes}</p>
+//                     <p className="card-text">
+//                       Pieza: {`${rawMaterial.rawMaterialShape} de ${rawMaterial.rawMaterialMaterial}, diámetro externo ${rawMaterial.rawMaterialExtDiameter}, diámetro interno ${rawMaterial.rawMaterialIntDiameter}`}
+//                     </p>
+//                     <div className="card">
+//                       <div className="card-body">
+//                         <h5 className="card-title">Operaciones:</h5>
+//                         {rawMaterial.operationsToFollow &&
+//                           rawMaterial.operationsToFollow.map((operation, operationIndex) => (
+//                             <div className="card mb-2" key={operation.operationId}>
+//                               <div className="card-body">
+//                                 <p className="card-text">ID: {operation.operationId}</p>
+//                                 <p className="card-text">Nº Op: {operation.codeOperation}</p>
+//                                 <p className="card-text">Nombre Op: {operation.operationName}</p>
+//                                 <input
+//                                   type="text"
+//                                   className="form-control"
+//                                   value={operation.notes}
+//                                   onChange={(event) => handleNotesChange(event, index, operationIndex)}
+//                                 />
+//                               </div>
+//                             </div>
+//                           ))}
+//                       </div>
+//                     </div>
+//                     <button
+//                       className="btn btn-primary mt-3"
+//                       onClick={() => setSelectedRawMaterialIndex(index)}
+//                     >
+//                       Seleccionar materia prima
+//                     </button>
+//                   </div>
+//                 </div>
+//               ))}
+//           </div>
+//           <div className="mt-4">
+//             <h2>Operaciones:</h2>
+//             {RTFToDo.operationsToFollow &&
+//               RTFToDo.operationsToFollow.map((operation) => (
+//                 <div className="card mb-3" key={operation.operationId}>
+//                   <div className="card-body">
+//                     <p className="card-text">ID: {operation.operationId}</p>
+//                     <p className="card-text">Nº Op: {operation.codeOperation}</p>
+//                     <p className="card-text">Nombre Op: {operation.operationName}</p>
+//                     <button
+//                       className="btn btn-success"
+//                       onClick={() => onClickAddRmOTF(selectedRawMaterialIndex, operation)}
+//                     >
+//                       Añadir a rawMaterial.operationsToFollow
+//                     </button>
+//                   </div>
+//                 </div>
+//               ))}
+//           </div>
+//         </div>
+//       )}
+//       <button className="btn btn-primary mt-3" onClick={handleSubmit}>
+//         Crear ruta/s
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default RuteToFollow;

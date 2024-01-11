@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "vijusa-tool-backend.vercel.app";
+const API_URL = "https://vijusa-tool-backend.vercel.app";
 const addToCreateProductState = {
     addContactId : (data) => {
         return data

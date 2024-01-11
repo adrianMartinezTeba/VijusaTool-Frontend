@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "vijusa-tool-backend.vercel.app";
+const API_URL = "https://vijusa-tool-backend.vercel.app";
 
 const createOTF = async (operationToFollow) => {
     const res = await axios.post(`${API_URL}/operationToFollow/create`,operationToFollow);

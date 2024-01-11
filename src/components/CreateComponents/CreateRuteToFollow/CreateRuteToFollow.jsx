@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { reset, getProducts } from '../../../features/Promises/product/productSlice';
+import { reset, getProductsWithOutRTF,getProducts } from '../../../features/Promises/product/productSlice';
 import { createRTF } from '../../../features/Promises/ruteToFollow/ruteToFollowSlice';
 const CreateRuteToFollow = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isSuccess, products } = useSelector((state) => state.product);
     const [RTFToDo, setRTFToDo] = useState({
@@ -13,15 +15,25 @@ const CreateRuteToFollow = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [selectedRawMaterialIndex, setSelectedRawMaterialIndex] = useState(null);
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getProductsWithOutRTF());
     }, []);
+    useEffect(() => {
+        console.log(products);
+        
+    },[products])
+    useEffect(() => {
+        console.log(selectedProduct);
+    }, [selectedProduct]);
+    useEffect(() => {
+        console.log(RTFToDo);
+    }, [RTFToDo])
     const onClickAddToSelectedProduct = (product) => {
         setSelectedProduct(product);
     }
     useEffect(() => {
         if (selectedProduct) {
+            const productId = selectedProduct._id;
             const updatedRawMaterials = selectedProduct.rawMaterials.map((rawMaterial) => ({
-                productId: selectedProduct._id,
                 modelName: selectedProduct.modelName,
                 contactId: selectedProduct.contactId._id,
                 contactName: selectedProduct.contactId.name,
@@ -41,6 +53,7 @@ const CreateRuteToFollow = () => {
             }));
 
             setRTFToDo({
+                productId: productId,
                 rawMaterials: updatedRawMaterials,
                 operationsToFollow: updatedOperationsToFollow,
                 state: [
@@ -73,7 +86,6 @@ const CreateRuteToFollow = () => {
 
         setRTFToDo(updatedRTFToDo);
     };
-
     const handleNotesChange = (event, indexRM, indexOperation) => {
         const updatedRawMaterials = [...RTFToDo.rawMaterials];
         const selectedRawMaterial = updatedRawMaterials[indexRM];
@@ -86,12 +98,10 @@ const CreateRuteToFollow = () => {
                 return operation;
             }
         );
-
         updatedRawMaterials[indexRM] = {
             ...selectedRawMaterial,
             operationsToFollow: updatedOperationsToFollow,
         };
-
         const updatedRTFToDo = {
             ...RTFToDo,
             rawMaterials: updatedRawMaterials,
@@ -99,11 +109,10 @@ const CreateRuteToFollow = () => {
 
         setRTFToDo(updatedRTFToDo);
     };
-
     const handleSubmit = () => {
         const ItemToSend = {
+            productId: RTFToDo.productId,
             rawMaterials: RTFToDo.rawMaterials.map((rawMaterial) => ({
-                productId: rawMaterial.productId,
                 contactId: rawMaterial.contactId,
                 rawMaterialId: rawMaterial.rawMaterialId,
                 cantidadDeCortes: rawMaterial.cantidadDeCortes,
@@ -113,8 +122,6 @@ const CreateRuteToFollow = () => {
                 })),
             })),
         };
-
-        console.log(ItemToSend);
         setRTFToDo({
             rawMaterials: [],
             operationsToFollow: [],
@@ -128,32 +135,41 @@ const CreateRuteToFollow = () => {
         });
 
         dispatch(createRTF(ItemToSend));
+        navigate('/')
+        dispatch(reset());
     };
-
+useEffect(() => {
+},[selectedRawMaterialIndex])
     return (
         <div className="container mt-5">
             {!selectedProduct ? (
-                <div className="table-responsive">
-                    <table className="table table-striped table-bordered">
-                        <thead className="table-dark">
-                            <tr>
-                                <th scope="col">Nombre del modelo</th>
-                                <th scope="col">Seleccionar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                products ? (products.map((product, index) => (
-                                    <tr key={product._id}>
-                                        <td>{product.modelName}</td>
-                                        <td>
-                                            <button className="btn btn-primary" onClick={() => onClickAddToSelectedProduct(product)}>   {product.modelName}</button>       
-                                        </td>
-                                    </tr>
-                                ))) : (null)
-                            }
-                        </tbody>  
-                    </table>
+                
+                <div className='container'>
+                    <div className='text-center'>
+                        <h2>Productos sin ruta a seguir creada</h2>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-bordered">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th scope="col">Nombre del modelo</th>
+                                    <th scope="col">Seleccionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    products ? (products.map((product, index) => (
+                                        <tr key={product._id}>
+                                            <td>{product.modelName}</td>
+                                            <td>
+                                                <button className="btn btn-primary" onClick={() => onClickAddToSelectedProduct(product)}>   {product.modelName}</button>
+                                            </td>
+                                        </tr>
+                                    ))) : (null)
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <div>
@@ -167,7 +183,9 @@ const CreateRuteToFollow = () => {
                                         <p className="card-text">Cliente: {rawMaterial.contactName}</p>
                                         <p className="card-text">N. cortes: {rawMaterial.cantidadDeCortes}</p>
                                         <p className="card-text">
-                                            Pieza: {`${rawMaterial.rawMaterialShape} de ${rawMaterial.rawMaterialMaterial}, diámetro externo ${rawMaterial.rawMaterialExtDiameter}, diámetro interno ${rawMaterial.rawMaterialIntDiameter}`}
+                                            Pieza: <strong>{`${rawMaterial.rawMaterialShape} de ${rawMaterial.rawMaterialMaterial}`}</strong>, 
+                                            {`diámetro externo ${rawMaterial.
+                                            rawMaterialExtDiameter}, diámetro interno ${rawMaterial.rawMaterialIntDiameter}`}
                                         </p>
                                         <div className="card">
                                             <div className="card-body">
@@ -213,7 +231,11 @@ const CreateRuteToFollow = () => {
                                             className="btn btn-success"
                                             onClick={() => onClickAddRmOTF(selectedRawMaterialIndex, operation)}
                                         >
-                                            Añadir a rawMaterial.operationsToFollow
+                                            {selectedRawMaterialIndex !== null ? (
+                                                `Añadir a ${RTFToDo.rawMaterials[selectedRawMaterialIndex].rawMaterialShape} de ${RTFToDo.rawMaterials[selectedRawMaterialIndex].rawMaterialMaterial}`
+                                            ) : (
+                                                <p>Seleccione una materia prima</p>
+                                            )}
                                         </button>
                                     </div>
                                 </div>

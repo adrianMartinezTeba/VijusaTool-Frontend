@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "vijusa-tool-backend.vercel.app";
 const addToCreateProductState = {
     addContactId : (data) => {
         return data
@@ -37,6 +37,10 @@ const getProducts = async () => {
     const res = await axios.get(`${API_URL}/product/get`);
     return res.data;
 };
+const getProductsWithOutRTF = async () => {
+    const res = await axios.get(`${API_URL}/product/getWithoutRTF`);
+    return res.data;
+};
 const getProductById = async (id) => {
     const res = await axios.get(`${API_URL}/product/get/${id}`);
     return res.data;
@@ -66,6 +70,7 @@ create,
 deleteProduct,
 getProductById,
 getProducts,
+getProductsWithOutRTF,
 getLastProduct,
 updateProduct,
 addToCreateProductState

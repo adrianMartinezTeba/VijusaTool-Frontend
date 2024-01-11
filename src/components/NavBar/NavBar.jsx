@@ -10,14 +10,14 @@ const NavBar = () => {
         </li>
         <li className="nav-item dropdown">
           <span className="nav-link dropdown-toggle" id="pedidosDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Nuevo
+            Crear
           </span>
           <ul className="dropdown-menu" aria-labelledby="pedidosDropdown">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to="/create/order" className="dropdown-item">Pedido</Link>
-            </li>
+            </li> */}
             <li className="nav-item">
-              <Link to="/create/product" className="dropdown-item">Producto</Link>
+              <Link to="/create/contact" className="dropdown-item">Contacto</Link>
             </li>
             <li className="nav-item">
               <Link to="/create/rawMaterial" className="dropdown-item">Materia prima</Link>
@@ -26,7 +26,7 @@ const NavBar = () => {
               <Link to="/create/operationToFollow" className="dropdown-item">Operación</Link>
             </li>
             <li className="nav-item">
-              <Link to="/create/contact" className="dropdown-item">Contacto</Link>
+              <Link to="/create/product" className="dropdown-item">Producto</Link>
             </li>
             <li className="nav-item">
               <Link to="/create/ruteToFollow" className="dropdown-item">Ruta a seguir</Link>
@@ -39,20 +39,20 @@ const NavBar = () => {
             Buscar
           </span>
           <ul className="dropdown-menu" aria-labelledby="productosDropdown">
-          <li className="nav-item">
+            <li className="nav-item">
               <Link to="/see/contacts" className="dropdown-item">Contactos</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/productos/crear" className="dropdown-item">Pedido</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/productos/actualizar" className="dropdown-item">Producto</Link>
             </li>
             <li className="nav-item">
               <Link to="/see/rawMaterials" className="dropdown-item">Materias primas</Link>
             </li>
             <li className="nav-item">
-              <Link to="/see/operations" className="dropdown-item">Operación</Link>
+              <Link to="/see/operations" className="dropdown-item">Operaciónes</Link>
+            </li>
+            {/* <li className="nav-item">
+              <Link to="/productos/crear" className="dropdown-item">Pedido</Link>
+            </li> */}
+            <li className="nav-item">
+              <Link to="/see/products" className="dropdown-item">Productos</Link>
             </li>
           </ul>
         </li>

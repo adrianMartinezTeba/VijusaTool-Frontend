@@ -14,6 +14,8 @@ import OperationInd from "./components/ToSee/Operations/OperationInd/OperationIn
 import RawMaterials from "./components/ToSee/RawMaterials/RawMaterials";
 import RawMaterialInd from "./components/ToSee/RawMaterials/RawMaterialInd/RawMaterialInd";
 import CreateRuteToFollow from "./components/CreateComponents/CreateRuteToFollow/CreateRuteToFollow";
+import Products from "./components/ToSee/Products/Products";
+import ProductInd from "./components/ToSee/Products/ProductInd/ProductInd";
 
 function App() {
 
@@ -25,16 +27,18 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/create/order" element={<CreateOrder />} />
             <Route path="/create/product" element={<CreateProduct />} />
+            <Route path="/see/products" element={<Products />} />
+            <Route path="/productInd/:id" element={<ProductInd />} />
             <Route path="/create/rawMaterial" element={<CreateRawMaterial />} />
-            <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
-            <Route path="/create/contact" element={<CreateContact />} />
-            <Route path="/create/ruteToFollow" element={<CreateRuteToFollow />} />
-            <Route path="/see/contacts" element={<Contacts />} />
-            <Route path="/contactInd/:id" element={<ContactInd />} />
-            <Route path="/see/operations" element={<Operations />} />
-            <Route path="/operationInd/:id" element={<OperationInd />} />
             <Route path="/see/rawMaterials" element={<RawMaterials/>} />
             <Route path="/rawMaterialInd/:id" element={<RawMaterialInd />} />
+            <Route path="/create/operationToFollow" element={<CreateOperationToFollow />} />
+            <Route path="/see/operations" element={<Operations />} />
+            <Route path="/operationInd/:id" element={<OperationInd />} />
+            <Route path="/create/contact" element={<CreateContact />} />
+            <Route path="/see/contacts" element={<Contacts />} />
+            <Route path="/contactInd/:id" element={<ContactInd />} />
+            <Route path="/create/ruteToFollow" element={<CreateRuteToFollow />} />
           </Routes>
         
       </BrowserRouter>

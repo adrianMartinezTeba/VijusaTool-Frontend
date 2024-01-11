@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "vijusa-tool-backend.vercel.app";
 
 const getContacts = async () => {
     const res = await axios.get(`${API_URL}/contact/get`);

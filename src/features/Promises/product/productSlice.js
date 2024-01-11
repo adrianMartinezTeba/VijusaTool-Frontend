@@ -29,6 +29,8 @@ export const productSlice = createSlice({
             state.isError = false;
             state.message = '';
             state.isSuccess = false;
+            state.products = initialState.products
+            state.product = initialState.product
         },
     },
     extraReducers: (builder) => {
@@ -46,7 +48,10 @@ export const productSlice = createSlice({
             .addCase(getProducts.fulfilled, (state, action) => {
                 state.products = action.payload
             })
-            .addCase(getLastProduct.fulfilled, (state, action) => {
+            .addCase(getProductsWithOutRTF.fulfilled, (state, action) => {
+                state.products = action.payload
+            })
+            .addCase(getProductById.fulfilled, (state, action) => {
                 state.product = action.payload
             })
             .addCase(addToCreateProductState.fulfilled, (state, action) => {
@@ -90,7 +95,6 @@ export const productSlice = createSlice({
             })
     },
 });
-
 export const create = createAsyncThunk("product/create ",
     async (product, thunkAPI) => {
         try {
@@ -112,6 +116,17 @@ export const getProducts = createAsyncThunk("product/getProducts ",
     }
 
 );
+export const getProductsWithOutRTF = createAsyncThunk("product/getProductsWithoutRTF ",
+    async (thunkAPI) => {
+        try {
+            return await productService.getProductsWithOutRTF();
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+
+);
 export const getProductById = createAsyncThunk("product/getProductById ",
     async (id, thunkAPI) => {
         try {
@@ -123,17 +138,6 @@ export const getProductById = createAsyncThunk("product/getProductById ",
     }
 
 );
-export const getLastProduct = createAsyncThunk("product/getLastProduct ",
-    async (thunkAPI) => {
-        try {
-            return await productService.getLastProduct();
-        } catch (error) {
-            console.error(error);
-            return thunkAPI.rejectWithValue(message);
-        }                   
-    }
-)
-
 export const deleteProduct = createAsyncThunk("product/deleteProduct ", async (id, thunkAPI) => {
     try {
         return await productService.deleteProduct(id);

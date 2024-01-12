@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = "https://vijusa-tool-backend.vercel.app";
-
+const apiLocal = "http://localhost:8080";
 const getRM = async () => {
     const res = await axios.get(`${API_URL}/rawMaterial/get`);
     return res.data;

@@ -1,7 +1,6 @@
 import axios from "axios";
-
 const API_URL = "https://vijusa-tool-backend.vercel.app";
-
+const apiLocal = "http://localhost:8080";
 const getRTF= async () => {
     const res = await axios.get(`${API_URL}/ruteToFollow/getRTFs`);
     return res.data;
@@ -17,7 +16,6 @@ const createRTF= async (ruteToFollow) => {
     return res.data;
 }
 const addToCrRTF = async (data) => {
-
     return data;
 }
 const shapeToCreate = async (ruteToFollow) => {

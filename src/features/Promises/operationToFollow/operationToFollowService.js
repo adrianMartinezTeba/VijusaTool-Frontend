@@ -1,9 +1,9 @@
 import axios from "axios";
-const apiLocal = "http://localhost:8080";
-const API_URL = "https://vijusa-tool-backend.vercel.app";
+const API_URL = "http://localhost:8080";
+const apiLocal = "https://vijusa-tool-backend.vercel.app";
 
 const createOTF = async (operationToFollow) => {
-    const res = await axios.post(`${API_URL}/operationToFollow/create`,operationToFollow);
+    const res = await axios.post(`${apiLocal}/operationToFollow/create`,operationToFollow);
 
     return res.data;
 }
@@ -11,19 +11,19 @@ const OTFToCreate = async (operationToFollow) => {
   return operationToFollow;
 }
 const getOTF = async () => {
-    const res = await axios.get(`${API_URL}/operationToFollow/get`);
+    const res = await axios.get(`${apiLocal}/operationToFollow/get`);
     return res.data;
 };
 const getOTFById = async (id) => {
-    const res = await axios.get(`${API_URL}/operationToFollow/get/${id}`);
+    const res = await axios.get(`${apiLocal}/operationToFollow/get/${id}`);
     return res.data;
 };
 const deleteOTF = async (id) => {
-    const res = await axios.delete(`${API_URL}/operationToFollow/delete/${id}`);
+    const res = await axios.delete(`${apiLocal}/operationToFollow/delete/${id}`);
     return res.data;
 }
 const updateOTF = async (id,updOTF) => {
-    const res = await axios.put(`${API_URL}/operationToFollow/update/${id}`,updOTF);
+    const res = await axios.put(`${apiLocal}/operationToFollow/update/${id}`,updOTF);
     return res.data;
 }
 

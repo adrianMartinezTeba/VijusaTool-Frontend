@@ -34,34 +34,34 @@ const addToCreateProductState = {
     },
 }
 const getProducts = async () => {
-    const res = await axios.get(`${API_URL}/product/get`);
+    const res = await axios.get(`${apiLocal}/product/get`);
     return res.data;
 };
 const getProductsWithOutRTF = async () => {
-    const res = await axios.get(`${API_URL}/product/getWithoutRTF`);
+    const res = await axios.get(`${apiLocal}/product/getWithoutRTF`);
     return res.data;
 };
 const getProductById = async (id) => {
-    const res = await axios.get(`${API_URL}/product/get/${id}`);
+    const res = await axios.get(`${apiLocal}/product/get/${id}`);
     return res.data;
 };
 const getLastProduct = async () => {
-    const res = await axios.get(`${API_URL}/product/getLast`);
+    const res = await axios.get(`${apiLocal}/product/getLast`);
     console.log(res.data);
     return res.data;
 }
 const create = async (product) => {
-    const res = await axios.post(`${API_URL}/product/create`,product);
+    const res = await axios.post(`${apiLocal}/product/create`,product);
 
     return res.data;
 }
 const deleteProduct = async (id) => {
-    const res = await axios.delete(`${API_URL}/product/delete/${id}`);
+    const res = await axios.delete(`${apiLocal}/product/delete/${id}`);
     return res.data;
 }
 
 const updateProduct = async (updProduct,id) => {
-    const res = await axios.put(`${API_URL}/product/update/${id}`,updProduct);
+    const res = await axios.put(`${apiLocal}/product/update/${id}`,updProduct);
     return res.data;
 }
 

@@ -5,8 +5,8 @@ import Searcher from './Searcher/Searcher';
 import { useNavigate } from 'react-router-dom';
 
 const Contacts = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { contacts } = useSelector((state) => state.contact);
 
   // Configuración de la paginación

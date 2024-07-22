@@ -9,7 +9,7 @@ const RawMaterialInd = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getRMById(id));
+    dispatch(getRMById(id33));
   }, [id]);
 
   useEffect(() => {

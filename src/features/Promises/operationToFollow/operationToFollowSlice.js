@@ -54,6 +54,14 @@ export const operationToFollowSlice = createSlice({
                 state.isSuccess = true
                 state.isLoading = false
             })
+            .addCase(updateOTF.fulfilled, (state, action) => {
+                state.operationToFollow = action.payload.operationToFollow
+            })
+            .addCase(deleteOTF.fulfilled, (state, action) => {
+                state.operationToFollow = ''
+                state.isLoading = false
+                state.isSuccess = true
+            })
     },
 });
 
@@ -109,13 +117,14 @@ export const deleteOTF = createAsyncThunk("operationToFollow/deleteOTF ", async 
     }
 },
 );
-export const updateOTF = createAsyncThunk("operationToFollow/updateOTF ", async (id,updOTF, thunkAPI) => {
+export const updateOTF = createAsyncThunk("operationToFollow/updateOTF", async ({ id, updOTF }, thunkAPI) => {
     try {
-        return await operationToFollowService.updateOTF(id,updOTF);
+        return await operationToFollowService.updateOTF(id, updOTF);
     } catch (error) {
+        console.error(error);
+        return thunkAPI.rejectWithValue('Error actualizando la operación');
+    }
+});
 
-    } console.error(error);
-    return thunkAPI.rejectWithValue(message);
-})
 export const { reset } = operationToFollowSlice.actions;
 export default operationToFollowSlice.reducer;

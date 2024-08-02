@@ -37,7 +37,7 @@ const ContactSection = () => {
   }, [isSuccess]);
 
   return (
-    <div className="container">
+    <div className="container-md--rtf mt-3 border p-3 border-dark">
       <h2 >Cliente: {contactToView.name}</h2>
       {buttonsStateContactSection.buscar ? (
         <div>

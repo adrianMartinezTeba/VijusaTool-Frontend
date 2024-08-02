@@ -11,6 +11,9 @@ const addToCreateProductState = {
     addRawMaterials: (data) => {
         return data
     },
+    setRuteToFollow: (data) => {
+        return data
+    },
     deleteRawMaterial: (data) => {
         return data
     },
@@ -60,10 +63,12 @@ const deleteProduct = async (id) => {
     return res.data;
 }
 
-const updateProduct = async (updProduct,id) => {
-    const res = await axios.put(`${apiLocal}/product/update/${id}`,updProduct);
+const updateProduct = async (id, updProduct) => {
+    const res = await axios.put(`${apiLocal}/product/update/${id}`, updProduct);
     return res.data;
 }
+
+
 
 const productService = {
 create,

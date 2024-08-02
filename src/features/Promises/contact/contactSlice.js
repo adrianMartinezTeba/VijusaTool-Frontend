@@ -49,6 +49,14 @@ export const contactSlice = createSlice({
             .addCase(getContactById.fulfilled, (state,action) => {
                 state.contact = action.payload
             })
+            .addCase(updateContact.fulfilled,(state,action)=>{
+                state.contact = action.payload.contact
+            })
+            .addCase(deleteContact.fulfilled,(state,action)=>{
+                state.contact = ''
+                state.isLoading = false
+                state.isSuccess = true
+            })
     },
 });
 
@@ -114,13 +122,14 @@ export const deleteContact = createAsyncThunk("contact/deleteContact ", async (i
     }
 },
 );
-export const updateProduct = createAsyncThunk("contact/updateProduct ", async (id,updContact, thunkAPI) => {
+export const updateContact = createAsyncThunk("contact/updateContact ", async ({ id, updContact }, thunkAPI) => {
     try {
-        return await contactService.updateProduct(id,updContact);
+        return await contactService.updateContact(id, updContact);
     } catch (error) {
+        console.error(error);
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
 
-    } console.error(error);
-    return thunkAPI.rejectWithValue(message);
-})
 export const { reset } = contactSlice.actions;
 export default contactSlice.reducer;

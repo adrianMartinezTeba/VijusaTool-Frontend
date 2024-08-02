@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts} from '../../../features/Promises/contact/contactSlice';
+import { getContacts,deleteContact} from '../../../features/Promises/contact/contactSlice';
 import Searcher from './Searcher/Searcher';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,12 @@ const Contacts = () => {
   useEffect(() => {
     dispatch(getContacts());
   }, []);
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [deleteContact]);
+useEffect(()=>{
 
+},[contacts])
   // Lógica para calcular el índice inicial y final de la lista actual
   const indexOfLastContact = currentPage * itemsPerPage;
   const indexOfFirstContact = indexOfLastContact - itemsPerPage;
@@ -38,7 +43,7 @@ const Contacts = () => {
         <thead>
           <tr>
             <th scope="col">Nombre</th>
-            <th scope="col">Tipo</th>
+         
             <th scope="col">Teléfono</th>
             <th scope="col">Dirección</th>
             {/* Puedes agregar más encabezados según la necesidad */}
@@ -48,7 +53,7 @@ const Contacts = () => {
           {currentContacts.map((contact) => (
             <tr onClick={() => onClick(contact._id)} key={contact._id}>
               <td>{contact.name}</td>
-              <td>{contact.type}</td>
+         
               <td>{contact.tlfn}</td>
               <td>{contact.address}</td>
               {/* Puedes agregar más celdas según la necesidad */}

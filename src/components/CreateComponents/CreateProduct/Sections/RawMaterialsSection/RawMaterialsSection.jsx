@@ -77,7 +77,7 @@ const RawMaterialsSection = () => {
   }, [rawMaterialsArray])
 
   return (
-    <div className="container mt-4">
+    <div className="container-md--rtf mt-3 border p-3 border-dark">
       <h3>Materias primas</h3>
       {rawMaterialsArray.length > 0 ? (
         <div className="table-responsive">

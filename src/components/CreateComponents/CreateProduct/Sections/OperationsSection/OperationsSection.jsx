@@ -25,12 +25,21 @@ const OperationsSection = () => {
   };
 
   const addToOTFArray = (newData) => {
-    setOTFArray([...OTFArray, { ...newData, operationId: newData._id, notes: '', expectedTime: '', priceOperation: '' }]);
+    setOTFArray([
+      ...OTFArray,
+      {
+        ...newData,
+        operationId: newData._id,
+        notes: '',
+        expectedTime: '',
+        priceOperation: '',
+      },
+    ]);
   };
 
-  const deleteOTFFromArray = (data) => {
+  const deleteOTFFromArray = (index) => {
     const newArray = [...OTFArray];
-    newArray.splice(data, 1);
+    newArray.splice(index, 1);
     setOTFArray(newArray);
   };
 
@@ -38,10 +47,11 @@ const OperationsSection = () => {
     const { name, value } = e.target;
     const newArray = [...OTFArray];
     if (name === 'expectedTime') {
+      const expectedTimeInSeconds = Number(value);
       newArray[index] = {
         ...newArray[index],
-        expectedTime: value,
-        priceOperation: priceOnThisOTF(newArray[index].priceHourEur, value),
+        expectedTime: expectedTimeInSeconds,
+        priceOperation: priceOnThisOTF(newArray[index].priceHourEur, expectedTimeInSeconds),
       };
     }
     setOTFArray(newArray);
@@ -59,8 +69,8 @@ const OperationsSection = () => {
   }, [OTFArray]);
 
   return (
-    <div className="container mt-4">
-      <h3 className="mt-4">Operaciones a seguir</h3>
+    <div className="container-md--rtf mt-3 border p-3 border-dark">
+      <h3>Operaciones a seguir</h3>
       {OTFArray && OTFArray.length > 0 ? (
         <div>
           <div className="table-responsive">
@@ -70,7 +80,7 @@ const OperationsSection = () => {
                   <th scope="col">Nombre</th>
                   <th scope="col">Nº operación</th>
                   <th scope="col">Precio/Hora</th>
-                  <th scope="col">Tiempo esperado(mins)</th>
+                  <th scope="col">Tiempo esperado total de la operación (segundos)</th>
                   <th scope="col">Precio sobre esta operación</th>
                   <th scope="col" />
                 </tr>
@@ -82,10 +92,23 @@ const OperationsSection = () => {
                     <td>{item.codeOperation}</td>
                     <td>{item.priceHourEur}</td>
                     <td>
-                      <input type="Number" name="expectedTime" value={item.expectedTime} onChange={(e) => handleInputChange(e, index)} className="form-control" />
+                      <input
+                        type="number"
+                        name="expectedTime"
+                        value={item.expectedTime}
+                        onChange={(e) => handleInputChange(e, index)}
+                        className="form-control"
+                      />
                     </td>
                     <td>
-                      <input type="Number" name="priceOperation" value={item.priceOperation} onChange={(e) => handleInputChange(e, index)} className="form-control" readOnly />
+                      <input
+                        type="number"
+                        name="priceOperation"
+                        value={item.priceOperation}
+                        onChange={(e) => handleInputChange(e, index)}
+                        className="form-control"
+                        readOnly
+                      />
                     </td>
                     <td>
                       <DeleteOTF deleteOTFFromArray={deleteOTFFromArray} index={index} />

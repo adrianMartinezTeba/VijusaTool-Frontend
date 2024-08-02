@@ -10,9 +10,10 @@ const getRTFById = async (id) => {
     return res.data;
 };
 const createRTF= async (ruteToFollow) => {
-    await ruteToFollow
-    const res = await axios.post(`${apiLocal}/ruteToFollow/createRTF`,ruteToFollow);
 
+    console.log(ruteToFollow);
+    const res = await axios.post(`${apiLocal}/ruteToFollow/createRTF`,ruteToFollow);
+    console.log(res.data);
     return res.data;
 }
 const addToCrRTF = async (data) => {
@@ -26,7 +27,8 @@ const deleteRTF = async (id) => {
     return res.data;
 }
 const updateRTF = async (id,updRTF) => {
-    const res = await axios.put(`${apiLocal}/ruteToFollow/update/${id}`,updRTF);
+    console.log(updRTF);
+    const res = await axios.put(`${apiLocal}/ruteToFollow/updateRTF/${id}`,updRTF);
     return res.data;
 }
 

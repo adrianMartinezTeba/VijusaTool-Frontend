@@ -2,12 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productService from "./productService";
 
 const initialState = {
-    product:null,
+    product: null,
     products: [],
     createProductState: {
         modelName: '',
         rawMaterials: [],
         operationToFollow: [],
+        ruteToFollow: '',
         contactId: '',
         totalPrice: '',
         notes: ''
@@ -52,6 +53,7 @@ export const productSlice = createSlice({
                 state.products = action.payload
             })
             .addCase(getProductById.fulfilled, (state, action) => {
+                console.log(action.payload);
                 state.product = action.payload
             })
             .addCase(addToCreateProductState.fulfilled, (state, action) => {
@@ -86,12 +88,35 @@ export const productSlice = createSlice({
                     case 'addTotalPrice':
                         state.createProductState.totalPrice = data;
                         break;
+                    case 'setRuteToFollow':
+                        state.createProductState.ruteToFollow = data; // Guarda el ID de la ruta
+                        break;
                     default:
                         break;
                 }
 
                 state.message = 'Creado correctamente';
                 state.isSuccess = true;
+            })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                console.log(action.payload);
+                state.product = action.payload.product
+                console.log(state.product);
+                state.message = 'Actualizado correctamente';
+                state.isSuccess = true;
+                state.isLoading = false;
+                state.isError = false;
+            })
+            .addCase(updateProduct.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.message = 'Cargando...';
+                state.isSuccess = false;
+            }).addCase(updateProduct.rejected, (state) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = 'Error al actualizar';
+                state.isSuccess = false;    
             })
     },
 });
@@ -147,14 +172,15 @@ export const deleteProduct = createAsyncThunk("product/deleteProduct ", async (i
     }
 },
 );
-export const updateProduct = createAsyncThunk("product/updateProduct ", async (id, thunkAPI) => {
+export const updateProduct = createAsyncThunk("product/updateProduct ", async ({ id, updProduct }, thunkAPI) => {
     try {
-        return await productService.updateProduct(id);
+        return await productService.updateProduct(id, updProduct);
     } catch (error) {
+        console.error(error);
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
 
-    } console.error(error);
-    return thunkAPI.rejectWithValue(message);
-})
 export const addToCreateProductState = createAsyncThunk(
     "product/addToCreateProductState",
     async ({ functionName, data }, thunkAPI) => {

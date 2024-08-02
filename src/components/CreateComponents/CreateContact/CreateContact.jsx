@@ -65,7 +65,7 @@ const CreateContact = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="type" className="form-label">
             Tipo (Obligado):
           </label>
@@ -79,7 +79,7 @@ const CreateContact = () => {
             <option value="Cliente">Cliente</option>
             <option value="Proveedor">Proveedor</option>
           </select>
-        </div>
+        </div> */}
         <div className="mb-3">
           <label htmlFor="tlfn" className="form-label">
             Teléfono (Obligado):

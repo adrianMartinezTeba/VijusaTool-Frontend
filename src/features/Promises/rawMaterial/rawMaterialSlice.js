@@ -66,6 +66,9 @@ export const rawMaterialSlice = createSlice({
                 state.isLoadingRawMaterial = false
                 
             })
+            .addCase(updateRM.fulfilled, (state, action) => {
+                state.rawMaterial = action.payload.rawMaterial
+            })
     },
 });
 
@@ -130,13 +133,13 @@ export const deleteRM = createAsyncThunk("rawMaterial/deleteRM ", async (id, thu
     }
 },
 );
-export const updateRM = createAsyncThunk("rawMaterial/updateRM ", async (id,updRM, thunkAPI) => {
+export const updateRM = createAsyncThunk("rawMaterial/updateRM", async ({ id,updRM }, thunkAPI) => {
     try {
-        return await rawMaterialService.updateRM(id,updRM);
+        console.log(updRM);
+        return await rawMaterialService.updateRM(id, updRM);
     } catch (error) {
-
-    } console.error(error);
-    return thunkAPI.rejectWithValue(messageRawMaterial);
-})
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
 export const { reset } = rawMaterialSlice.actions;
 export default rawMaterialSlice.reducer;

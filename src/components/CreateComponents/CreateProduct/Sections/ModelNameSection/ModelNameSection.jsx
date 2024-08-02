@@ -24,7 +24,7 @@ const ModelNameSection = () => {
   }, [isSuccess]);
 
   return (
-    <div className="mb-3">
+    <div className="container-md--rtf mt-3 border p-3 border-dark">
       <label htmlFor="modelName" className="form-label">
         Nombre del modelo:
       </label>

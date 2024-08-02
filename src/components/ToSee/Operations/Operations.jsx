@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getOTF} from '../../../features/Promises/operationToFollow/operationToFollowSlice';
+import { deleteOTF, getOTF} from '../../../features/Promises/operationToFollow/operationToFollowSlice';
 import { useNavigate } from 'react-router-dom';
 import Searcher from './Searcher/Searcher';
 const Operations = () => {
@@ -20,6 +20,12 @@ const Operations = () => {
     const onClick = (id) => {
       navigate(`/operationInd/${id}`);
     };
+    useEffect(() => {
+      dispatch(getOTF());
+    }, [deleteOTF]);
+    useEffect(() => {
+      
+    }, [operationsTF]);
     return (
         <div className="container mt-5">
           <div>
